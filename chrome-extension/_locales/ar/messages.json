@@ -1,0 +1,14 @@
+{
+    "appName": {
+        "message": "Cobone Reviews",
+        "description": "Cobone Reviews"
+    },
+    "appDesc": {
+        "message": "Cobone Reviews",
+        "description": "Cobone Reviews."
+    },
+    "comment_required": {
+        "message": "",
+        "description": "أدخل تعليق من فضلك"
+    }
+}

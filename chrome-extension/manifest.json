@@ -1,0 +1,16 @@
+{
+    "name": "__MSG_appName__",
+    "description": "__MSG_appDesc__",
+    "default_locale": "ar",
+    "version": "0.1",
+    "permissions": [
+        "<all_urls>"
+    ],
+    "content_scripts": [{
+        "matches": ["https://www.cobone.com/*"],
+        "js": ["jquery.min.js", "bootstrap.min.js", "comments.js"],
+        "run_at": "document_end"
+    }],
+    "manifest_version": 2,
+    "web_accessible_resources": ["comments.html"]
+}
