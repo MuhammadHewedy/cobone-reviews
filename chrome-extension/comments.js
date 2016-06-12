@@ -1,4 +1,4 @@
-var serverUrl = "http://localhost:8080"
+var serverUrl = "https://cobone-reviews.herokuapp.com"
 
 var buttonList = $(".add-to-cart")
 
