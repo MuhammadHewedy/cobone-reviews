@@ -9,18 +9,13 @@ if (buttonList.length <= 0) {
 
     // inject comments html page to html body
     $.get(chrome.extension.getURL('/comments.html'), function(data) {
-        // TODO FIX THIS NOT WORKING ON ALL PAGES
-        //
-
-        // https://www.cobone.com/ar/deals/riyadh-food-ramadan/intour-alsahafa-hotel-ramadan-iftar-sar111/46487
-        // https://www.cobone.com/ar/deals/riyadh-food-ramadan/carawan-alfahad-ramadan-iftar-sar105-adult/45600
-
-        $($.parseHTML(data)).appendTo('#page-content-wrapper > section:nth-child(10) > div > div > div.singledealcolleft');
+        var e = $(_x('//*[@id="page-content-wrapper"]/section[2]/div/div/div[1]'));
+        $($.parseHTML(data)).appendTo(e);
     });
 
     var offer = $(document).find("title").text()
     var company = $('#page-content-wrapper > section:nth-child(8) > div > div > div.singledealcolright > div.singledealpanel.companyinfo > h3').text()
-    var path = window.location.pathname.split("/").join("~");
+    var path = window.location.pathname.split("/").join("~").substring(4);
     var getUrl = serverUrl + "/comments/" + path;
 
     console.log(offer, company, getUrl);
@@ -39,7 +34,6 @@ if (buttonList.length <= 0) {
             dealId = data[0].deal.id;
 
             // draw comments
-
             for (var i = 0; i < data.length; i++) {
                 var comment = data[i];
                 $('#comments').append("<h4>" + comment.name + "</h4>");
@@ -92,7 +86,15 @@ if (buttonList.length <= 0) {
         });
     });
 
-
+    function _x(STR_XPATH) {
+        var xresult = document.evaluate(STR_XPATH, document, null, XPathResult.ANY_TYPE, null);
+        var xnodes = [];
+        var xres;
+        while (xres = xresult.iterateNext()) {
+            xnodes.push(xres);
+        }
+        return xnodes;
+    }
 
 
 }
