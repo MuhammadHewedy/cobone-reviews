@@ -1,4 +1,5 @@
 java-backend/target/
+java-backend/bin/
 java-backend/.settings
 java-backend/.project
 java-backend/.classpath
