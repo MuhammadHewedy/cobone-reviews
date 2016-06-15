@@ -18,7 +18,6 @@ if (buttonList.length <= 0) {
     var company = $('#page-content-wrapper > section:nth-child(8) > div > div > div.singledealcolright > div.singledealpanel.companyinfo > h3').text()
     var path = window.location.pathname.split("/").join("~").substring(4);
     var getUrl = serverUrl + "/comments/" + path;
-    var submitBound = false;
     var dealId = null;
 
     console.log(offer, company, getUrl);
@@ -33,10 +32,7 @@ if (buttonList.length <= 0) {
             console.log(data);
 
             // enable post comment controls
-            $('#review-name').prop('disabled', false);
-            $('#review-email').prop('disabled', false);
-            $('#review-content').prop('disabled', false);
-            $('#review-submit').prop('disabled', false);
+            $('#fieldset').prop("disabled", false);
 
             if (data.length > 0) {
                 dealId = data[0].deal.id;
@@ -52,32 +48,27 @@ if (buttonList.length <= 0) {
                 $('#comments').append("<h5>No comments found - لا توجد تعليقات</h5>");
             }
 
-            if (!submitBound) {
-                $('#review-submit').bind('click', submit);
-                submitBound = true;
-            }
+            $('#review-submit').unbind('click').bind('click', submitHandler);
         });
     }
 
     // -- button submit callback
-    function submit() {
+    function submitHandler() {
         if ($('#form')[0].checkValidity()) {
-            var comment = {
-                deal: {
-                    id: dealId,
-                    path: path,
-                    offerTitle: offer,
-                    company: company
-                },
-                name: $('#review-name').val(),
-                email: $('#review-email').val(),
-                content: $('#review-content').val()
-            };
-
             $.ajax({
                 type: 'POST',
                 url: serverUrl + "/comments",
-                data: JSON.stringify(comment),
+                data: JSON.stringify({
+                    deal: {
+                        id: dealId,
+                        path: path,
+                        offerTitle: offer,
+                        company: company
+                    },
+                    name: $('#review-name').val(),
+                    email: $('#review-email').val(),
+                    content: $('#review-content').val()
+                }),
                 success: successMessage,
                 error: function(jqXHR, textStatus, errorThrown) {
                     alert('textStatus : ' + textStatus)
