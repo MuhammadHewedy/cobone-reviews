@@ -1,4 +1,4 @@
-//var serverUrl = "https://cobone-reviews.herokuapp.com"
+// var serverUrl = "https://cobone-reviews.herokuapp.com"
 var serverUrl = "http://localhost:8080"
 
 var buttonList = $(".add-to-cart")
@@ -118,7 +118,6 @@ function xpath(STR_XPATH) {
 }
 
 function getDateDiff(date) {
-    console.log('date: ' + date)
     var msDiff = new Date() - new Date(date);
     var minDiff = msDiff / 60 / 1000;
     var hDiff = msDiff / 3600 / 1000;

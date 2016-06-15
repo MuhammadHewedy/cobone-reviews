@@ -8,7 +8,8 @@
     ],
     "content_scripts": [{
         "matches": ["https://www.cobone.com/*"],
-        "js": ["lib/jquery.min.js", "lib/bootstrap.min.js", "messages.js", "translate.js", "comments.js"],
+        "css": ["lib/bootstrap.min.css"],
+        "js": ["lib/recaptcha_api.js", "lib/jquery.min.js", "lib/bootstrap.min.js", "messages.js", "translate.js", "comments.js"],
         "run_at": "document_end"
     }],
     "manifest_version": 2,
