@@ -1,31 +1,33 @@
-<link rel="stylesheet" href="bootstrap.min.css">
+<link rel="stylesheet" href="lib/bootstrap.min.css">
 
 <div class="singledealpanel">
     <h3>Comments - التعليقات</h3>
 
-    <form role="form" class="form">
+    <form role="form" class="form" id="form" onsubmit="return false">
 
         <div class="form-group">
             <div class="input-group">
-                <input type="text" id="review-name" name="review-name" class="form-control" placeholder="Name - الإسم" disabled/>
+                <input type="text" id="review-name" name="review-name" class="form-control" placeholder="Name - الإسم" disabled required/>
             </div>
         </div>
 
         <div class="form-group">
             <div class="input-group">
-                <input type="text" id="review-email" name="review-email" class="form-control" placeholder="Email - البريد الإلكتروني" disabled/>
+                <input type="email" id="review-email" name="review-email" class="form-control" placeholder="Email - البريد الإلكتروني" disabled/>
             </div>
         </div>
 
         <div class="form-group">
             <div class="input-group">
-                <textarea id="review-content" name="review-content" class="form-control" rows="5" cols="40" placeholder="Comment - التعليق" disabled></textarea>
+                <textarea id="review-content" name="review-content" class="form-control" rows="5" cols="40" placeholder="Comment - التعليق" disabled required></textarea>
             </div>
         </div>
 
         <div class="form-group">
             <div class="input-group">
-                <button type="button" id="review-submit" name="review-submit" class="btn btn-primary" disabled > submit - إرسال </button>
+                <button type="submit" id="review-submit" name="review-submit" class="btn btn-primary" disabled>
+                    submit - إرسال
+                </button>
             </div>
         </div>
 
