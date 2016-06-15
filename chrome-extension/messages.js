@@ -28,7 +28,23 @@ var messages = {
         en: 'Comment posted successfully'
     },
     no_comments_found: {
-      ar: 'لا توجد تعليقات.',
-      en: 'No Comments found.'
+        ar: 'لا توجد تعليقات.',
+        en: 'No Comments found.'
+    },
+    since: {
+        ar: 'منذ ',
+        en: 'since '
+    },
+    HOUR: {
+        ar: ' ساعة',
+        en: ' Hours'
+    },
+    DAY: {
+        ar: ' يوم',
+        en: ' Days'
+    },
+    MIN: {
+        ar: ' دقيقة',
+        en: ' Minutes'
     }
 }

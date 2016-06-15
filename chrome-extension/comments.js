@@ -42,7 +42,9 @@ function loadComments() {
                 var comment = data[i];
                 $('#comments').append("<h4>" + comment.name + "</h4>");
                 $('#comments').append("<p>" + comment.content + "</p>");
-                $('#comments').append("<p><small>" + new Date(comment.created).toISOString().slice(0, 10) + "</small></p> <hr />");
+                var diffObj = getDateDiff(new Date(comment.created));
+                $('#comments').append("<p><small>" + getMessage('since') + diffObj.duration + getMessage(diffObj.unit) +
+                    "</small></p> <hr />");
             }
         } else {
             $('#comments').append(getMessage("no_comments_found"));
@@ -92,7 +94,7 @@ function successMessage() {
     $('#review-name').val('')
     $('#review-email').val('')
     $('#review-content').val('')
-    // $('#fieldset').prop("disabled", false);  // already called in loadComments
+        // $('#fieldset').prop("disabled", false);  // already called in loadComments
     $('#success-message-alert').css('display', 'block');
     showRequiredFields(true);
     loadComments();
@@ -113,4 +115,26 @@ function xpath(STR_XPATH) {
         xnodes.push(xres);
     }
     return xnodes;
+}
+
+function getDateDiff(date) {
+    console.log('date: ' + date)
+    var msDiff = new Date() - new Date(date);
+    var minDiff = msDiff / 60 / 1000;
+    var hDiff = msDiff / 3600 / 1000;
+    var dDiff = hDiff / 24;
+
+    var ret = {}
+
+    if (hDiff < 1) {
+        ret.duration = Math.ceil(minDiff)
+        ret.unit = 'MIN'
+    } else if (hDiff < 24) {
+        ret.duration = Math.ceil(hDiff)
+        ret.unit = 'HOUR'
+    } else {
+        ret.duration = Math.ceil(dDiff)
+        ret.unit = 'DAY'
+    }
+    return ret;
 }
