@@ -20,84 +20,95 @@ if (buttonList.length <= 0) {
     var getUrl = serverUrl + "/comments/" + path;
     var dealId = null;
 
-    console.log(offer, company, getUrl);
-
     loadComments();
+}
 
-    /// ------- functions ------------------------------------------------------
+/// ------- functions ------------------------------------------------------
 
-    // -- load comments function
-    function loadComments() {
-        $.get(getUrl, function(data) {
-            console.log(data);
+// -- load comments function
+function loadComments() {
+    $.get(getUrl, function(data) {
+        console.log(data);
 
-            $('#fieldset').prop("disabled", false);
+        $('#fieldset').prop("disabled", false);
 
-            if (data.length > 0) {
-                dealId = data[0].deal.id;
-                // draw comments
-                $('#comments').empty()
-                for (var i = 0; i < data.length; i++) {
-                    var comment = data[i];
-                    $('#comments').append("<h4>" + comment.name + "</h4>");
-                    $('#comments').append("<p>" + comment.content + "</p>");
-                    $('#comments').append("<p><small>" + new Date(comment.created).toISOString().slice(0, 10) + "</small></p> <hr />");
-                }
-            } else {
-                $('#comments').append("<h5>No comments found - لا توجد تعليقات</h5>");
+        if (data.length > 0) {
+            dealId = data[0].deal.id;
+            // draw comments
+            $('#comments').empty()
+            for (var i = 0; i < data.length; i++) {
+                var comment = data[i];
+                $('#comments').append("<h4>" + comment.name + "</h4>");
+                $('#comments').append("<p>" + comment.content + "</p>");
+                $('#comments').append("<p><small>" + new Date(comment.created).toISOString().slice(0, 10) + "</small></p> <hr />");
             }
+        } else {
+            $('#comments').append("<h5>No comments found - لا توجد تعليقات</h5>");
+        }
 
-            $('#review-submit').unbind('click').bind('click', submitHandler);
-        });
-    }
+        $('#review-submit').unbind('click').bind('click', submitHandler);
+    });
+}
 
-    // -- button submit callback
-    function submitHandler() {
+// -- button submit callback
+function submitHandler() {
+    var name = $.trim($('#review-name').val())
+    var email = $.trim($('#review-email').val())
+    var content = $.trim($('#review-content').val())
+
+    if (name && content) {
         $('#fieldset').prop("disabled", true);
 
-        if ($('#form')[0].checkValidity()) {
-            $.ajax({
-                type: 'POST',
-                url: serverUrl + "/comments",
-                data: JSON.stringify({
-                    deal: {
-                        id: dealId,
-                        path: path,
-                        offerTitle: offer,
-                        company: company
-                    },
-                    name: $('#review-name').val(),
-                    email: $('#review-email').val(),
-                    content: $('#review-content').val()
-                }),
-                success: successMessage,
-                error: function(jqXHR, textStatus, errorThrown) {
-                    $('#fieldset').prop("disabled", false);
-                    alert('textStatus : ' + textStatus)
+        $.ajax({
+            type: 'POST',
+            url: serverUrl + "/comments",
+            data: JSON.stringify({
+                deal: {
+                    id: dealId,
+                    path: path,
+                    offerTitle: offer,
+                    company: company
                 },
-                contentType: "application/json"
-            });
-        }
+                name: name,
+                email: email,
+                content: content
+            }),
+            success: successMessage,
+            error: function(jqXHR, textStatus, errorThrown) {
+                $('#fieldset').prop("disabled", false);
+                alert('textStatus : ' + textStatus)
+            },
+            contentType: "application/json"
+        });
+    } else {
+        showRequiredFields();
     }
+}
 
-    // -- success callback
-    function successMessage() {
-        alert('تم الإرسال بنجاح - success')
-        $('#review-name').val('')
-        $('#review-email').val('')
-        $('#review-content').val('')
-        $('#fieldset').prop("disabled", false);
-        loadComments();
-    }
+// -- success callback & validations
+function successMessage() {
+    $('#review-name').val('')
+    $('#review-email').val('')
+    $('#review-content').val('')
+    // $('#fieldset').prop("disabled", false);  // already called in loadComments
+    $('#success-message-alert').css('display', 'block');
+    showRequiredFields(true);
+    loadComments();
+}
 
-    // -- xpath utility
-    function xpath(STR_XPATH) {
-        var xresult = document.evaluate(STR_XPATH, document, null, XPathResult.ANY_TYPE, null);
-        var xnodes = [];
-        var xres;
-        while (xres = xresult.iterateNext()) {
-            xnodes.push(xres);
-        }
-        return xnodes;
+function showRequiredFields(reset) {
+    $('#review-name').css('border-color', reset ? '#ccc' : 'red');
+    $('#review-content').css('border-color', reset ? '#ccc' : 'red');
+    $('#required-fields-alert').css('display', reset ? 'none' : 'block');
+}
+
+// -- xpath utility
+function xpath(STR_XPATH) {
+    var xresult = document.evaluate(STR_XPATH, document, null, XPathResult.ANY_TYPE, null);
+    var xnodes = [];
+    var xres;
+    while (xres = xresult.iterateNext()) {
+        xnodes.push(xres);
     }
+    return xnodes;
 }
