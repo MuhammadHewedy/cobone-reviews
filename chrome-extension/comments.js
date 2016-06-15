@@ -31,7 +31,6 @@ if (buttonList.length <= 0) {
         $.get(getUrl, function(data) {
             console.log(data);
 
-            // enable post comment controls
             $('#fieldset').prop("disabled", false);
 
             if (data.length > 0) {
@@ -54,6 +53,8 @@ if (buttonList.length <= 0) {
 
     // -- button submit callback
     function submitHandler() {
+        $('#fieldset').prop("disabled", true);
+
         if ($('#form')[0].checkValidity()) {
             $.ajax({
                 type: 'POST',
@@ -71,6 +72,7 @@ if (buttonList.length <= 0) {
                 }),
                 success: successMessage,
                 error: function(jqXHR, textStatus, errorThrown) {
+                    $('#fieldset').prop("disabled", false);
                     alert('textStatus : ' + textStatus)
                 },
                 contentType: "application/json"
@@ -81,9 +83,10 @@ if (buttonList.length <= 0) {
     // -- success callback
     function successMessage() {
         alert('تم الإرسال بنجاح - success')
-        name: $('#review-name').val('')
-        email: $('#review-email').val('')
-        content: $('#review-content').val('')
+        $('#review-name').val('')
+        $('#review-email').val('')
+        $('#review-content').val('')
+        $('#fieldset').prop("disabled", false);
         loadComments();
     }
 
