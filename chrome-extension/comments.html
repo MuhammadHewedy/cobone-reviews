@@ -1,44 +1,42 @@
 <link rel="stylesheet" href="lib/bootstrap.min.css">
 
 <div class="singledealpanel">
-    <h3>Comments - التعليقات</h3>
+    <h3 id="title"></h3>
 
     <form role="form" class="form" id="form" onsubmit="return false">
 
         <fieldset id="fieldset" disabled>
             <div id="required-fields-alert" class="alert alert-danger" style="display: none;">
                 <a class="close" onclick="$('#required-fields-alert').hide()">&times;</a>
-                Name and Comment are required - الإسم و التعليق مطلوبان
+                <div id="required-fields-alert-msg"></div>
             </div>
 
             <div id="success-message-alert" class="alert alert-success" style="display: none;">
                 <a class="close" onclick="$('#success-message-alert').hide()">&times;</a>
-                Comment posted successfully - تم إرسال التعليق بنجاح
+                <div id="success-message-alert-msg"></div>
             </div>
 
             <div class="form-group">
                 <div class="input-group">
-                    <input type="text" id="review-name" name="review-name" class="form-control" placeholder="Name - الإسم"/>
+                    <input type="text" id="review-name" name="review-name" class="form-control"/>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="input-group">
-                    <input type="email" id="review-email" name="review-email" class="form-control" placeholder="Email - البريد الإلكتروني"/>
+                    <input type="email" id="review-email" name="review-email" class="form-control"/>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="input-group">
-                    <textarea id="review-content" name="review-content" class="form-control" rows="5" cols="40" placeholder="Comment - التعليق"></textarea>
+                    <textarea id="review-content" name="review-content" class="form-control" rows="5" cols="40"></textarea>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="input-group">
-                    <button type="submit" id="review-submit" name="review-submit" class="btn btn-primary">
-                        submit - إرسال
-                    </button>
+                    <button type="submit" id="review-submit" name="review-submit" class="btn btn-primary"></button>
                 </div>
             </div>
         </fieldset>

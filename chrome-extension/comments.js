@@ -12,6 +12,8 @@ if (buttonList.length <= 0) {
     $.get(chrome.extension.getURL('/comments.html'), function(data) {
         var e = $(xpath('//*[@id="page-content-wrapper"]/section[2]/div/div/div[1]'));
         $($.parseHTML(data)).appendTo(e);
+
+        translate();
     });
 
     var offer = $(document).find("title").text()
@@ -43,7 +45,7 @@ function loadComments() {
                 $('#comments').append("<p><small>" + new Date(comment.created).toISOString().slice(0, 10) + "</small></p> <hr />");
             }
         } else {
-            $('#comments').append("<h5>No comments found - لا توجد تعليقات</h5>");
+            $('#comments').append(getMessage("no_comments_found"));
         }
 
         $('#review-submit').unbind('click').bind('click', submitHandler);
