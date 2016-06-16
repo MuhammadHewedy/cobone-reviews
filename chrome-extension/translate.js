@@ -12,4 +12,6 @@ function translate() {
     $("#review-submit").text(getMessage('submit'));
     $("#title").text(getMessage('title'));
     $("#success-message-alert-msg").text(getMessage('success_message'));
+    $("#twitterButton").text(getMessage('tweetOnTwitter'))
+    $("#facebookButton").text(getMessage('shareOnFacebook'))
 }

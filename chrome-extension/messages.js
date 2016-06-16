@@ -54,5 +54,13 @@ var messages = {
     required_fields_content_length: {
         ar: 'التعليق قصير',
         en: 'Comment too short'
+    },
+    tweetOnTwitter: {
+      ar: 'غرد على تويتر',
+      en: 'Tweet on Twitter'
+    },
+    shareOnFacebook: {
+      ar: 'شارك على الفيسبوك',
+      en: 'Share on facebook'
     }
 }
