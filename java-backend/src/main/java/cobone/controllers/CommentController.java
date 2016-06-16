@@ -1,10 +1,11 @@
 package cobone.controllers;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,9 +29,9 @@ public class CommentController {
 	private DealRepo dealRepo;
 
 	@RequestMapping(method = RequestMethod.GET, path = "/{path}")
-	public ResponseEntity<List<Comment>> getComments(@PathVariable("path") String path) {
+	public ResponseEntity<Page<Comment>> getComments(@PathVariable("path") String path, @PageableDefault(size = 5) Pageable pageable) {
 		log.info("getting comments for path {}", path);
-		return ResponseEntity.ok(commentRepo.getByDealPathOrderByCreatedDesc(path));
+		return ResponseEntity.ok(commentRepo.getByDealPathOrderByCreatedDesc(path, pageable));
 	}
 
 	@RequestMapping(method = RequestMethod.POST)

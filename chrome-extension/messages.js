@@ -62,5 +62,9 @@ var messages = {
     shareOnFacebook: {
       ar: 'شارك على الفيسبوك',
       en: 'Share on facebook'
+    },
+    loadMoreComments: {
+      ar: 'المزيد من التعليقات',
+      en: 'More comments'
     }
 }

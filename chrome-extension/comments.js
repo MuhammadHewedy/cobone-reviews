@@ -16,23 +16,28 @@ var serverUrl = 'http://localhost:8080';
         });
         loadComments({
             'path': window.location.pathname.split("/").join("~").substring(4)
-        });
+        }, 0);
     }
 })();
 
 /// ------- functions ----------------------------------------------------------
 
 // -- load comments function
-function loadComments(params) {
-    $.get(serverUrl + "/comments/" + params.path, function(data) {
+function loadComments(params, page) {
+    $.get(serverUrl + "/comments/" + params.path + "?page=" + page, function(data) {
         console.log(data);
 
         $('#fieldset').prop("disabled", false);
 
+        var last = data.last;
+        data = data.content;
+
         if (data.length > 0) {
             params.dealId = data[0].deal.id;
-            // draw comments
-            $('#comments').empty()
+
+            if (page == 0) {
+                $('#comments').empty()
+            }
             for (var i = 0; i < data.length; i++) {
                 var comment = data[i];
                 $('#comments').append("<h4>" + comment.name + "</h4>");
@@ -41,7 +46,17 @@ function loadComments(params) {
                 $('#comments').append("<p><small>" + getMessage('since') + diffObj.duration + getMessage(diffObj.unit) +
                     "</small></p> <hr />");
             }
+            if (last) {
+                $('#load-more').css('display', 'none');
+            } else {
+                $('#load-more').css('display', 'block');
+                $('#load-more').unbind('click').bind('click', function() {
+                    loadComments(params, page + 1);
+                });
+            }
+
         } else {
+            $('#load-more').css('display', 'none');
             $('#comments').append(getMessage("no_comments_found"));
         }
 
@@ -84,7 +99,7 @@ function submitHandler(params) {
                 $('#review-email').val('')
                 $('#review-content').val('')
                     // $('#fieldset').prop("disabled", false);  // already called in loadComments
-                loadComments(params);
+                loadComments(params, 0);
                 $('#success-message-alert').css('display', 'block');
             },
             error: function(jqXHR, textStatus, errorThrown) {
