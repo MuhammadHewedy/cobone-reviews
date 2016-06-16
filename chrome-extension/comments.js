@@ -1,5 +1,5 @@
-// var serverUrl = 'https://cobone-reviews.herokuapp.com';
-var serverUrl = 'http://localhost:8080';
+var serverUrl = 'https://cobone-reviews.herokuapp.com';
+// var serverUrl = 'http://localhost:8080';
 
 (function() {
     var buttonList = $(".add-to-cart")
@@ -63,6 +63,7 @@ function submitHandler(params) {
 
     if (name && content) {
         $('#fieldset').prop("disabled", true);
+        showRequiredFields(true);
 
         $.ajax({
             type: 'POST',
@@ -83,7 +84,6 @@ function submitHandler(params) {
                 $('#review-email').val('')
                 $('#review-content').val('')
                     // $('#fieldset').prop("disabled", false);  // already called in loadComments
-                showRequiredFields(true);
                 loadComments(params);
                 $('#success-message-alert').css('display', 'block');
             },
