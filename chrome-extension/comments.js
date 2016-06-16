@@ -36,7 +36,7 @@ function loadComments(params) {
             for (var i = 0; i < data.length; i++) {
                 var comment = data[i];
                 $('#comments').append("<h4>" + comment.name + "</h4>");
-                $('#comments').append("<p>" + comment.content + "</p>");
+                $('#comments').append("<p>" + comment.content.split('\n').join('<br />') + "</p>");
                 var diffObj = getDateDiff(new Date(comment.created));
                 $('#comments').append("<p><small>" + getMessage('since') + diffObj.duration + getMessage(diffObj.unit) +
                     "</small></p> <hr />");
@@ -61,9 +61,9 @@ function submitHandler(params) {
     var email = $.trim($('#review-email').val())
     var content = $.trim($('#review-content').val())
 
-    if (name && content) {
+    if (validate(name, email, content)) {
+
         $('#fieldset').prop("disabled", true);
-        showRequiredFields(true);
 
         $.ajax({
             type: 'POST',
@@ -93,15 +93,38 @@ function submitHandler(params) {
             },
             contentType: "application/json"
         });
-    } else {
-        showRequiredFields();
     }
 }
 
-function showRequiredFields(reset) {
-    $('#review-name').css('border-color', reset ? '#ccc' : 'red');
-    $('#review-content').css('border-color', reset ? '#ccc' : 'red');
-    $('#required-fields-alert').css('display', reset ? 'none' : 'block');
+function validate(name, email, content) {
+    restRequiredFields();
+    var ret = true;
+    if (!name) {
+        showError('#review-name', 'required_fields_name');
+        ret = false;
+    }
+    if (!content) {
+        showError('#review-content', 'required_fields_content');
+        ret = false;
+    }
+    if (content && content.length < 20) {
+        showError('#review-content', 'required_fields_content_length');
+        ret = false;
+    }
+    return ret;
+}
+
+function showError(input, message) {
+    $("#required-fields-alert-msg").append(getMessage(message) + '<br />');
+    $(input).css('border-color', 'red');
+    $('#required-fields-alert').css('display', 'block');
+}
+
+function restRequiredFields() {
+    $('#review-name').css('border-color', '#ccc');
+    $('#review-content').css('border-color', '#ccc');
+    $("#required-fields-alert-msg").empty();
+    $('#required-fields-alert').css('display', 'none');
 }
 
 // -- xpath utility

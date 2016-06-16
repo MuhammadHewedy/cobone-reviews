@@ -19,10 +19,6 @@ var messages = {
         ar: 'التعليقات',
         en: 'Comments'
     },
-    required_fields: {
-        ar: 'من فضلك أدخل الإسم و التعليق',
-        en: 'Name and Comment are required'
-    },
     success_message: {
         ar: 'تم إرسال التعليق بنجاح',
         en: 'Comment posted successfully'
@@ -46,5 +42,17 @@ var messages = {
     MIN: {
         ar: ' دقيقة',
         en: ' Minutes'
+    },
+    required_fields_name: {
+        ar: 'من فضلك أدخل الاسم',
+        en: 'Name is required'
+    },
+    required_fields_content: {
+        ar: 'من فضلك أدخل التعليق ',
+        en: 'Comment is required'
+    },
+    required_fields_content_length: {
+        ar: 'التعليق قصير',
+        en: 'Comment too short'
     }
 }
