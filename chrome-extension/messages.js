@@ -55,6 +55,10 @@ var messages = {
         ar: 'التعليق قصير',
         en: 'Comment too short'
     },
+    required_fields_invalid_email: {
+        ar: 'البريد غير صحيح',
+        en: 'Invalid email'
+    },
     tweetOnTwitter: {
       ar: 'غرد على تويتر',
       en: 'Tweet on Twitter'

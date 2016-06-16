@@ -118,6 +118,10 @@ function validate(name, email, content) {
         showError('#review-name', 'required_fields_name');
         ret = false;
     }
+    if (email && email.length > 0 && !/\S+@\S+\.\S+/.test(email)) {
+        showError('#review-email', 'required_fields_invalid_email');
+        ret = false;
+    }
     if (!content) {
         showError('#review-content', 'required_fields_content');
         ret = false;
@@ -130,6 +134,7 @@ function validate(name, email, content) {
 }
 
 function showError(input, message) {
+    $('#success-message-alert').css('display', 'none'); // hide success message
     $("#required-fields-alert-msg").append(getMessage(message) + '<br />');
     $(input).css('border-color', 'red');
     $('#required-fields-alert').css('display', 'block');
@@ -137,6 +142,7 @@ function showError(input, message) {
 
 function restRequiredFields() {
     $('#review-name').css('border-color', '#ccc');
+    $('#review-email').css('border-color', '#ccc');
     $('#review-content').css('border-color', '#ccc');
     $("#required-fields-alert-msg").empty();
     $('#required-fields-alert').css('display', 'none');
