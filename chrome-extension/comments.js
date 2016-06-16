@@ -1,41 +1,36 @@
 // var serverUrl = "https://cobone-reviews.herokuapp.com"
-var serverUrl = "http://localhost:8080"
+var serverUrl = 'http://localhost:8080';
 
-var buttonList = $(".add-to-cart")
+(function() {
+    var buttonList = $(".add-to-cart")
+    if (buttonList.length <= 0) {
+        console.log('this page DOEST NOT have add To cart!')
+    } else {
+        console.log('this page has add To cart!')
 
-if (buttonList.length <= 0) {
-    console.log('this page DOEST NOT have add To cart!')
-} else {
-    console.log('this page has add To cart!')
+        $.get(chrome.extension.getURL('/comments.html'), function(data) {
+            var e = $(xpath('//*[@id="page-content-wrapper"]/section[2]/div/div/div[1]'));
+            $($.parseHTML(data)).appendTo(e);
 
-    // inject comments html page to html body
-    $.get(chrome.extension.getURL('/comments.html'), function(data) {
-        var e = $(xpath('//*[@id="page-content-wrapper"]/section[2]/div/div/div[1]'));
-        $($.parseHTML(data)).appendTo(e);
+            translate();
+        });
+        loadComments({
+            'path': window.location.pathname.split("/").join("~").substring(4)
+        });
+    }
+})();
 
-        translate();
-    });
-
-    var offer = $(document).find("title").text()
-    var company = $('#page-content-wrapper > section:nth-child(8) > div > div > div.singledealcolright > div.singledealpanel.companyinfo > h3').text()
-    var path = window.location.pathname.split("/").join("~").substring(4);
-    var getUrl = serverUrl + "/comments/" + path;
-    var dealId = null;
-
-    loadComments();
-}
-
-/// ------- functions ------------------------------------------------------
+/// ------- functions ----------------------------------------------------------
 
 // -- load comments function
-function loadComments() {
-    $.get(getUrl, function(data) {
+function loadComments(params) {
+    $.get(serverUrl + "/comments/" + params.path, function(data) {
         console.log(data);
 
         $('#fieldset').prop("disabled", false);
 
         if (data.length > 0) {
-            dealId = data[0].deal.id;
+            params.dealId = data[0].deal.id;
             // draw comments
             $('#comments').empty()
             for (var i = 0; i < data.length; i++) {
@@ -50,12 +45,18 @@ function loadComments() {
             $('#comments').append(getMessage("no_comments_found"));
         }
 
-        $('#review-submit').unbind('click').bind('click', submitHandler);
+        $('#review-submit').unbind('click').bind('click', function() {
+            submitHandler(params);
+        });
     });
 }
 
 // -- button submit callback
-function submitHandler() {
+function submitHandler(params) {
+
+    var dealTitle = $(document).find("title").text()
+    var dealCompany = ''; // TODO
+
     var name = $.trim($('#review-name').val())
     var email = $.trim($('#review-email').val())
     var content = $.trim($('#review-content').val())
@@ -68,16 +69,24 @@ function submitHandler() {
             url: serverUrl + "/comments",
             data: JSON.stringify({
                 deal: {
-                    id: dealId,
-                    path: path,
-                    offerTitle: offer,
-                    company: company
+                    id: params.dealId,
+                    path: params.path,
+                    offerTitle: dealTitle,
+                    company: dealCompany
                 },
                 name: name,
                 email: email,
                 content: content
             }),
-            success: successMessage,
+            success: function() {
+                $('#review-name').val('')
+                $('#review-email').val('')
+                $('#review-content').val('')
+                    // $('#fieldset').prop("disabled", false);  // already called in loadComments
+                $('#success-message-alert').css('display', 'block');
+                showRequiredFields(true);
+                loadComments(params);
+            },
             error: function(jqXHR, textStatus, errorThrown) {
                 $('#fieldset').prop("disabled", false);
                 alert('textStatus : ' + textStatus)
@@ -87,17 +96,6 @@ function submitHandler() {
     } else {
         showRequiredFields();
     }
-}
-
-// -- success callback & validations
-function successMessage() {
-    $('#review-name').val('')
-    $('#review-email').val('')
-    $('#review-content').val('')
-        // $('#fieldset').prop("disabled", false);  // already called in loadComments
-    $('#success-message-alert').css('display', 'block');
-    showRequiredFields(true);
-    loadComments();
 }
 
 function showRequiredFields(reset) {
