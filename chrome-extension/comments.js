@@ -1,4 +1,4 @@
-// var serverUrl = "https://cobone-reviews.herokuapp.com"
+// var serverUrl = 'https://cobone-reviews.herokuapp.com';
 var serverUrl = 'http://localhost:8080';
 
 (function() {
@@ -83,9 +83,9 @@ function submitHandler(params) {
                 $('#review-email').val('')
                 $('#review-content').val('')
                     // $('#fieldset').prop("disabled", false);  // already called in loadComments
-                $('#success-message-alert').css('display', 'block');
                 showRequiredFields(true);
                 loadComments(params);
+                $('#success-message-alert').css('display', 'block');
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 $('#fieldset').prop("disabled", false);
