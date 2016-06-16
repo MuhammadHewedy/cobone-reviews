@@ -1,5 +1,5 @@
-var serverUrl = 'https://cobone-reviews.herokuapp.com';
-// var serverUrl = 'http://localhost:8080';
+// var serverUrl = 'https://cobone-reviews.herokuapp.com';
+var serverUrl = 'http://localhost:8080';
 
 (function() {
     var buttonList = $(".add-to-cart")
