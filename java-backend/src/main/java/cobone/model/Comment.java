@@ -12,7 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
-import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,13 +32,13 @@ public class Comment implements Serializable {
 	@SequenceGenerator(name = "comment_seq_gen", sequenceName = "comment_id_seq")
 	protected Long id;
 
-	@NotNull
+	@NotBlank
 	@Column(nullable = false)
 	private String name;
 
 	private String email;
 
-	@NotNull
+	@NotBlank
 	@Column(nullable = false)
 	private String content;
 
