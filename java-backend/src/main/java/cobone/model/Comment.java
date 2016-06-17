@@ -48,6 +48,7 @@ public class Comment implements Serializable {
 	@JoinColumn(name = "DEAL_ID", nullable = false)
 	private Deal deal;
 	
+	@NotBlank
 	@Transient
-	private String gRecaptchaResponse;
+	private String captcha;
 }

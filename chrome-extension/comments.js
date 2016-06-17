@@ -85,7 +85,7 @@ function submitHandler(params) {
                 name: name,
                 email: email,
                 content: content,
-                gRecaptchaResponse: gRecaptchaResp
+                captcha: gRecaptchaResp
             }),
             success: function() {
                 showSuccess();
@@ -96,7 +96,7 @@ function submitHandler(params) {
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 $('#fieldset').prop("disabled", false);
-                alert('textStatus : ' + textStatus)
+                alert(jqXHR.responseText)
             },
             contentType: "application/json"
         });
