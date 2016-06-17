@@ -72,7 +72,7 @@ var messages = {
       en: 'More comments'
     },
     required_fields_gRecaptchaResp: {
-      ar: 'كلمة التحقق مطلوبه',
-      en: 'Recaptcha Required'
+      ar: 'حدد مربع إختيار الكابتشا',
+      en: 'Check the captcha'
     }
 }

@@ -90,7 +90,8 @@ function submitHandler(params) {
             success: function() {
                 showSuccess();
                 $('input[type=text], textarea').val('');
-                // TODO rese recaptcha
+                $("#g-recaptcha").empty();
+                injectRecaptcha();
                 loadComments(params, 0);
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -183,7 +184,7 @@ function getDateDiff(date) {
 
 function injectRecaptcha() {
     var s = document.createElement('script');
-    s.src = chrome.extension.getURL("lib/recaptcha_api.js");
+    s.src = chrome.extension.getURL("lib/recaptcha_api_" + lang + ".js");
     s.onload = function() {
         this.parentNode.removeChild(this);
     };
