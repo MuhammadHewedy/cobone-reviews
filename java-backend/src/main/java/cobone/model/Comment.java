@@ -7,11 +7,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -29,8 +27,7 @@ public class Comment implements Serializable {
 	private static final long serialVersionUID = 8190096715963403303L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_seq_gen")
-	@SequenceGenerator(name = "comment_seq_gen", sequenceName = "comment_id_seq")
+	@GeneratedValue
 	protected Long id;
 
 	@NotBlank
