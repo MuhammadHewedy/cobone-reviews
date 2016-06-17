@@ -25,28 +25,25 @@ var serverUrl = 'http://localhost:8080';
 // -- load comments function
 function loadComments(params, page) {
     $.get(serverUrl + "/comments/" + params.path + "?page=" + page, function(data) {
-        console.log(data);
 
+        console.log(data);
         $('#fieldset').prop("disabled", false);
 
-        var last = data.last;
-        data = data.content;
+        if (data.content.length > 0) {
 
-        if (data.length > 0) {
-            params.dealId = data[0].deal.id;
+            params.dealId = data.content[0].deal.id;
+            page == 0 && $('#comments').empty();
 
-            if (page == 0) {
-                $('#comments').empty()
-            }
-            for (var i = 0; i < data.length; i++) {
-                var comment = data[i];
+            for (var i = 0; i < data.content.length; i++) {
+                var comment = data.content[i];
                 $('#comments').append("<h4>" + comment.name + "</h4>");
                 $('#comments').append("<p>" + comment.content.split('\n').join('<br />') + "</p>");
                 var diffObj = getDateDiff(new Date(comment.created));
                 $('#comments').append("<p><small>" + getMessage('since') + diffObj.duration + getMessage(diffObj.unit) +
                     "</small></p> <hr />");
             }
-            if (last) {
+            // load more
+            if (data.last) {
                 $('#load-more').css('display', 'none');
             } else {
                 $('#load-more').css('display', 'block');
@@ -54,7 +51,6 @@ function loadComments(params, page) {
                     loadComments(params, page + 1);
                 });
             }
-
         } else {
             $('#load-more').css('display', 'none');
             $('#comments').append(getMessage("no_comments_found"));
@@ -79,7 +75,6 @@ function submitHandler(params) {
     if (validate(name, email, content)) {
 
         $('#fieldset').prop("disabled", true);
-
         $.ajax({
             type: 'POST',
             url: serverUrl + "/comments",
@@ -95,12 +90,10 @@ function submitHandler(params) {
                 content: content
             }),
             success: function() {
-                $('#review-name').val('')
-                $('#review-email').val('')
-                $('#review-content').val('')
-                    // $('#fieldset').prop("disabled", false);  // already called in loadComments
+                showSuccess();
+                $('input[type=text], textarea').val('');
+                $('#fieldset').prop("disabled", false);
                 loadComments(params, 0);
-                $('#success-message-alert').css('display', 'block');
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 $('#fieldset').prop("disabled", false);
@@ -115,37 +108,41 @@ function validate(name, email, content) {
     restRequiredFields();
     var ret = true;
     if (!name) {
-        showError('#review-name', 'required_fields_name');
+        addError('#review-name', 'required_fields_name');
         ret = false;
     }
     if (email && email.length > 0 && !/\S+@\S+\.\S+/.test(email)) {
-        showError('#review-email', 'required_fields_invalid_email');
+        addError('#review-email', 'required_fields_invalid_email');
         ret = false;
     }
     if (!content) {
-        showError('#review-content', 'required_fields_content');
+        addError('#review-content', 'required_fields_content');
         ret = false;
     }
     if (content && content.length < 20) {
-        showError('#review-content', 'required_fields_content_length');
+        addError('#review-content', 'required_fields_content_length');
         ret = false;
     }
     return ret;
 }
 
-function showError(input, message) {
-    $('#success-message-alert').css('display', 'none'); // hide success message
-    $("#required-fields-alert-msg").append(getMessage(message) + '<br />');
+function addError(input, message) {
+    $("#alert-message").append(getMessage(message) + '<br />');
     $(input).css('border-color', 'red');
-    $('#required-fields-alert').css('display', 'block');
+    $('#alert').attr("class", "alert alert-danger");
+    $('#alert').css('display', 'block');
+}
+
+function showSuccess() {
+    $("#alert-message").text(getMessage('success_message'));
+    $('#alert').attr("class", "alert alert-success");
+    $('#alert').css('display', 'block');
 }
 
 function restRequiredFields() {
-    $('#review-name').css('border-color', '#ccc');
-    $('#review-email').css('border-color', '#ccc');
-    $('#review-content').css('border-color', '#ccc');
-    $("#required-fields-alert-msg").empty();
-    $('#required-fields-alert').css('display', 'none');
+    $('input[type=text], textarea').css('border-color', '#ccc');
+    $("#alert-message").empty();
+    $('#alert').css('display', 'none');
 }
 
 // -- xpath utility

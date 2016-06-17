@@ -4,14 +4,10 @@
     <form role="form" class="form" id="form" onsubmit="return false" novalidate>
 
         <fieldset id="fieldset" disabled>
-            <div id="required-fields-alert" class="alert alert-danger" style="display: none; margin-top: 0px;">
-                <a class="close" onclick="$('#required-fields-alert').hide()">&times;</a>
-                <div id="required-fields-alert-msg"></div>
-            </div>
 
-            <div id="success-message-alert" class="alert alert-success" style="display: none; margin-top: 0px;">
-                <a class="close" onclick="$('#success-message-alert').hide()">&times;</a>
-                <div id="success-message-alert-msg"></div>
+            <div id="alert" style="display: none; margin-top: 0px;">
+                <a class="close" onclick="$('#alert').hide()">&times;</a>
+                <div id="alert-message"></div>
             </div>
 
             <div class="form-group">
@@ -22,7 +18,7 @@
 
             <div class="form-group">
                 <div class="input-group">
-                    <input type="email" id="review-email" name="review-email" class="form-control"/>
+                    <input type="text" id="review-email" name="review-email" class="form-control"/>
                 </div>
             </div>
 
@@ -44,7 +40,7 @@
     </form>
 
     <div id="comments" class="singledeallist"></div>
-    <button type="button" class="btn btn-link" style="margin-top: -25px; margin-bottom: 20px; display: none; margin-left:auto; margin-right:auto;" id="load-more" > </button>
+    <button type="button" class="btn btn-link" style="margin-top: -25px; margin-bottom: 20px; display: none; margin-left:auto; margin-right:auto;" id="load-more"></button>
 
     <footer style="text-align: center;">
         <a id="twitterButton" style="font-size: 5px" class="btn btn-link" href="https://twitter.com/intent/tweet?text=http://google.com" data-size="large" target="_blank"></a>

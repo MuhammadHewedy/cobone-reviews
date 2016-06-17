@@ -11,7 +11,6 @@ function translate() {
     $("#review-content").attr('placeholder', getMessage('content'));
     $("#review-submit").text(getMessage('submit'));
     $("#title").text(getMessage('title'));
-    $("#success-message-alert-msg").text(getMessage('success_message'));
     $("#twitterButton").text(getMessage('tweetOnTwitter'))
     $("#facebookButton").text(getMessage('shareOnFacebook'))
     $("#load-more").text(getMessage('loadMoreComments'))

@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.Data;
@@ -39,6 +40,7 @@ public class Comment implements Serializable {
 	private String email;
 
 	@NotBlank
+	@Length(min = 20)
 	@Column(nullable = false)
 	private String content;
 
