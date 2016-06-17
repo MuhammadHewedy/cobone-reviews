@@ -1,4 +1,3 @@
-// var serverUrl = 'https://cobone-reviews.herokuapp.com';
 var serverUrl = 'http://localhost:8080';
 
 (function() {
@@ -65,9 +64,6 @@ function loadComments(params, page) {
 // -- button submit callback
 function submitHandler(params) {
 
-    var dealTitle = $(document).find("title").text()
-    var dealCompany = ''; // TODO
-
     var name = $.trim($('#review-name').val())
     var email = $.trim($('#review-email').val())
     var content = $.trim($('#review-content').val())
@@ -81,9 +77,7 @@ function submitHandler(params) {
             data: JSON.stringify({
                 deal: {
                     id: params.dealId,
-                    path: params.path,
-                    offerTitle: dealTitle,
-                    company: dealCompany
+                    path: params.path
                 },
                 name: name,
                 email: email,

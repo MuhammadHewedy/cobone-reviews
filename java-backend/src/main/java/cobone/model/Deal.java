@@ -36,10 +36,6 @@ public class Deal implements Serializable {
 	@Column(unique = true, nullable = false)
 	private String path;
 
-	private String offerTitle;
-
-	private String company;
-
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "deal")
 	private List<Comment> comments;
