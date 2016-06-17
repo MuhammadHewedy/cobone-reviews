@@ -70,5 +70,9 @@ var messages = {
     loadMoreComments: {
       ar: 'المزيد من التعليقات',
       en: 'More comments'
+    },
+    required_fields_gRecaptchaResp: {
+      ar: 'كلمة التحقق مطلوبه',
+      en: 'Recaptcha Required'
     }
 }

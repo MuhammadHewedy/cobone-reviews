@@ -1,6 +1,8 @@
 var serverUrl = 'http://localhost:8080';
 
 (function() {
+    injectRecaptcha();
+
     var buttonList = $(".add-to-cart")
     if (buttonList.length <= 0) {
         console.log('this page DOEST NOT have add To cart!')
@@ -67,8 +69,9 @@ function submitHandler(params) {
     var name = $.trim($('#review-name').val())
     var email = $.trim($('#review-email').val())
     var content = $.trim($('#review-content').val())
+    var gRecaptchaResp = $("#g-recaptcha-response").val();
 
-    if (validate(name, email, content)) {
+    if (validate(name, email, content, gRecaptchaResp)) {
 
         $('#fieldset').prop("disabled", true);
         $.ajax({
@@ -81,12 +84,13 @@ function submitHandler(params) {
                 },
                 name: name,
                 email: email,
-                content: content
+                content: content,
+                gRecaptchaResponse: gRecaptchaResp
             }),
             success: function() {
                 showSuccess();
                 $('input[type=text], textarea').val('');
-                $('#fieldset').prop("disabled", false);
+                // TODO rese recaptcha
                 loadComments(params, 0);
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -98,7 +102,7 @@ function submitHandler(params) {
     }
 }
 
-function validate(name, email, content) {
+function validate(name, email, content, gRecaptchaResp) {
     restRequiredFields();
     var ret = true;
     if (!name) {
@@ -117,12 +121,17 @@ function validate(name, email, content) {
         addError('#review-content', 'required_fields_content_length');
         ret = false;
     }
+    if (!gRecaptchaResp) {
+        addError('#g-recaptcha', 'required_fields_gRecaptchaResp');
+        ret = false;
+    }
     return ret;
 }
 
 function addError(input, message) {
     $("#alert-message").append(getMessage(message) + '<br />');
     $(input).css('border-color', 'red');
+    $(input).css('border-style', 'solid');
     $('#alert').attr("class", "alert alert-danger");
     $('#alert').css('display', 'block');
 }
@@ -134,7 +143,8 @@ function showSuccess() {
 }
 
 function restRequiredFields() {
-    $('input[type=text], textarea').css('border-color', '#ccc');
+    $('input[type=text], textarea, #g-recaptcha').css('border-color', '#ccc');
+    $('#g-recaptcha').css('border-style', 'hidden');
     $("#alert-message").empty();
     $('#alert').css('display', 'none');
 }
@@ -169,4 +179,13 @@ function getDateDiff(date) {
         ret.unit = 'DAY'
     }
     return ret;
+}
+
+function injectRecaptcha() {
+    var s = document.createElement('script');
+    s.src = chrome.extension.getURL("lib/recaptcha_api.js");
+    s.onload = function() {
+        this.parentNode.removeChild(this);
+    };
+    (document.head || document.documentElement).appendChild(s);
 }

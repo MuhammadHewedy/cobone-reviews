@@ -13,5 +13,5 @@
         "run_at": "document_end"
     }],
     "manifest_version": 2,
-    "web_accessible_resources": ["comments.html"]
+    "web_accessible_resources": ["comments.html", "lib/recaptcha_api.js"]
 }
