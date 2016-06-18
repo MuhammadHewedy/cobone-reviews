@@ -41,6 +41,8 @@ public class Comment implements Serializable {
 	@Length(min = 20)
 	@Column(nullable = false)
 	private String content;
+	
+	private String uuid;
 
 	private Date created = new Date();
 

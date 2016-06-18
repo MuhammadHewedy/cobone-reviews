@@ -4,6 +4,7 @@
     "default_locale": "ar",
     "version": "0.1",
     "permissions": [
+        "cookies",
         "<all_urls>"
     ],
     "content_scripts": [{

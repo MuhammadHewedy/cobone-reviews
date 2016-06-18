@@ -1,5 +1,10 @@
 package cobone.controllers;
 
+import java.util.UUID;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.http.HttpEntity;
@@ -14,11 +19,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.WebUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -33,6 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CommentController {
 
 	private static final String RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
+	private static final String COOKIE_NAME = "cr_uuid";
 
 	@Autowired
 	private CommentRepo commentRepo;
@@ -46,24 +54,33 @@ public class CommentController {
 
 	@RequestMapping(method = RequestMethod.GET, path = "/{path}")
 	public ResponseEntity<Page<Comment>> getComments(@PathVariable("path") String path,
-			@PageableDefault(size = 5) Pageable pageable) {
+			@PageableDefault(size = 5) Pageable pageable, HttpServletRequest req, HttpServletResponse resp) {
 		log.info("getting comments for path {}", path);
+
+		attachCookie(req, resp);
 		return ResponseEntity.ok(commentRepo.getByDealPathOrderByCreatedDesc(path, pageable));
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<?> addComments(@Valid @RequestBody(required = true) Comment comment) {
+	public ResponseEntity<?> addComments(@Valid @RequestBody(required = true) Comment comment,
+			@CookieValue(COOKIE_NAME) String cookie, HttpServletRequest req, HttpServletResponse resp) {
+
+		comment.setUuid(cookie);
 		log.debug("saving comments: {}", comment);
+		attachCookie(req, resp);
+
 		try {
 			validateCaptcha(comment.getCaptcha());
 		} catch (Exception ex) {
 			return ResponseEntity.badRequest().body(ex.getMessage());
 		}
+
 		if (comment.getDeal().getId() != null) {
 			comment.setDeal(dealRepo.findOne(comment.getDeal().getId()));
 		} else {
 			dealRepo.save(comment.getDeal());
 		}
+
 		commentRepo.save(comment);
 		return ResponseEntity.ok().build();
 	}
@@ -88,5 +105,16 @@ public class CommentController {
 		} catch (Exception ex) {
 			throw new RuntimeException("invalid captcha; " + ex.getMessage());
 		}
+	}
+
+	private void attachCookie(HttpServletRequest req, HttpServletResponse resp) {
+		log.trace("attaching cookie...");
+		Cookie cookie = WebUtils.getCookie(req, COOKIE_NAME);
+		if (cookie == null || cookie.getValue() == null || cookie.getValue().trim().length() == 0) {
+			String cookieValue = UUID.randomUUID().toString();
+			log.debug("Cookie not found, creating one: {}", cookieValue);
+			cookie = new Cookie(COOKIE_NAME, cookieValue);
+		}
+		resp.addCookie(cookie);
 	}
 }
