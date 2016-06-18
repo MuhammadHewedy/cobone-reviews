@@ -1,3 +1,3 @@
 #!/bin/bash
 cd $OPENSHIFT_REPO_DIR/java-backend
-mvn package -DskipTests=true
+mvn -Dmaven.repo.local=$HOME/app-root/runtime/.m2 package -DskipTests=true
