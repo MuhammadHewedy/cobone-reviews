@@ -1,5 +1,5 @@
 var serverUrl = 'https://cobonereviews-mhewedy.rhcloud.com/';
-//var serverUrl = 'http://localhost:8080';
+// var serverUrl = 'http://localhost:8080';
 
 (function() {
     injectRecaptcha();
