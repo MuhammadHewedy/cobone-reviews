@@ -72,7 +72,7 @@ var messages = {
       en: 'More comments'
     },
     required_fields_gRecaptchaResp: {
-      ar: 'حدد مربع إختيار الكابتشا',
+      ar: 'من فضلك حدد مربع إختيار الكابتشا',
       en: 'Check the captcha'
     }
 }
