@@ -6,3 +6,5 @@ java-backend/.classpath
 java-backend/setenv_first.txt
 
 chrome-extension.pem
+
+*.log
