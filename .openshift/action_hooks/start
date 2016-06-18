@@ -5,10 +5,8 @@
 
 export JAVA_HOME=/etc/alternatives/java_sdk_1.8.0
 export PATH=$JAVA_HOME/bin:$PATH
-export JDBC_DATABASE_URL="jdbc:mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/cobonereviews?user=$OPENSHIFT_MYSQL_DB_USERNAME&password=$OPENSHIFT_MYSQL_DB_PASSWORD"
-export CAPTCHA_SECRET="6nCITAAAAABfRJgdDfvPs8rMc529BarIQeaHI"
 
+source ${OPENSHIFT_DATA_DIR}/setenv.sh
 
 cd $OPENSHIFT_REPO_DIR
 nohup java -jar java-backend/target/*.jar --server.port=${OPENSHIFT_DIY_PORT} --server.address=${OPENSHIFT_DIY_IP} &
-
