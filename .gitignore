@@ -3,7 +3,6 @@ java-backend/bin/
 java-backend/.settings
 java-backend/.project
 java-backend/.classpath
-java-backend/setenv_first.txt
 
 chrome-extension.pem
 
