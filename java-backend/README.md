@@ -5,6 +5,7 @@ If you running the application from the command line, use system comman to set t
 ```shell
 export JDBC_DATABASE_URL="jdbc:mysql://localhost/cobone-reviews?user=root&password="
 export CAPTCHA_SECRET="captcha secrect from recaptcah website"
+export LOG_DIR="/Users/mhewedy/logs/"
 ````
 
 If you running in Eclipse or other IDE, you need to set the variable in the IDE, for example in Eclipse:
