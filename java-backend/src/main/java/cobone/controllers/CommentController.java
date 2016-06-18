@@ -70,7 +70,6 @@ public class CommentController {
 
 	private void validateCaptcha(String captcha) {
 		try {
-			log.debug("secret: {}", captchaSecret);
 			HttpClient httpClient = HttpClientBuilder.create().build();
 
 			URIBuilder builder = new URIBuilder(RECAPTCHA_VERIFY_URL);
