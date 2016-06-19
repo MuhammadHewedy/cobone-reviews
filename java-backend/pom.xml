@@ -5,7 +5,7 @@
 
 	<groupId>cobone-reviews</groupId>
 	<artifactId>cobone-reviews</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>cobone-reviews</name>
@@ -72,7 +72,12 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
-
-
+	
 </project>
