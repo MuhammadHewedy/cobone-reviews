@@ -52,8 +52,8 @@ var messages = {
         en: 'Comment is required'
     },
     required_fields_content_length: {
-        ar: 'التعليق قصير',
-        en: 'Comment too short'
+        ar: 'من فضلك أضف المزيد من الكلمات إلى تعليقك',
+        en: 'Enter more words in your comment'
     },
     required_fields_invalid_email: {
         ar: 'البريد غير صحيح',

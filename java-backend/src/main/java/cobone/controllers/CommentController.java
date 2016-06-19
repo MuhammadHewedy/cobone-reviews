@@ -30,6 +30,7 @@ import org.springframework.web.util.WebUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cobone.model.Comment;
+import cobone.model.Deal;
 import cobone.repo.CommentRepo;
 import cobone.repo.DealRepo;
 import lombok.extern.slf4j.Slf4j;
@@ -100,12 +101,12 @@ public class CommentController {
 			return ResponseEntity.badRequest().body(ex.getMessage());
 		}
 
-		if (comment.getDeal().getId() != null) {
-			comment.setDeal(dealRepo.findOne(comment.getDeal().getId()));
+		Deal deal = dealRepo.findByPath(comment.getDeal().getPath());
+		if (deal != null) {
+			comment.setDeal(deal);
 		} else {
 			dealRepo.save(comment.getDeal());
 		}
-
 		commentRepo.save(comment);
 		return ResponseEntity.ok().build();
 	}

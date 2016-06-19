@@ -33,7 +33,6 @@ function loadComments(params, page) {
 
         if (data.content.length > 0) {
 
-            params.dealId = data.content[0].deal.id;
             page == 0 && $('#comments').empty();
 
             for (var i = 0; i < data.content.length; i++) {
@@ -64,6 +63,7 @@ function loadComments(params, page) {
                 });
             }
         } else {
+            $('#comments').empty();
             $('#load-more').css('display', 'none');
             $('#comments').append(getMessage("no_comments_found"));
         }
@@ -90,7 +90,6 @@ function submitHandler(params) {
             url: serverUrl + "/comments",
             data: JSON.stringify({
                 deal: {
-                    id: params.dealId,
                     path: params.path
                 },
                 name: name,
@@ -161,13 +160,15 @@ function addError(input, message) {
     $(input).css('border-style', 'solid');
     $('#alert').attr("class", "alert alert-danger");
     $('#alert').css('display', 'block');
+    $('html, body').animate({
+        scrollTop: $("#alert").offset().top
+    }, 100);
 }
 
 function showSuccess(message) {
     $("#alert-message").text(getMessage(message));
     $('#alert').attr("class", "alert alert-success");
     $('#alert').css('display', 'block');
-
     $('html, body').animate({
         scrollTop: $("#alert").offset().top
     }, 100);
