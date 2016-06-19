@@ -130,14 +130,12 @@ public class CommentController {
 	}
 
 	private void attachCookieIfRequired(HttpServletRequest req, HttpServletResponse resp) {
-		log.trace("attaching cookie...");
-		Cookie cookie = WebUtils.getCookie(req, COOKIE_NAME);
 
-		if (cookie == null) {
-			String cookieValue = UUID.randomUUID().toString();
-			log.debug("Cookie not found, creating one: {}", cookieValue);
-			cookie = new Cookie(COOKIE_NAME, cookieValue);
+		if (WebUtils.getCookie(req, COOKIE_NAME) == null) {
+			Cookie cookie = new Cookie(COOKIE_NAME, UUID.randomUUID().toString());
 			cookie.setMaxAge(Integer.MAX_VALUE);
+			log.debug("Cookie not found, creating one: {}", cookie.getValue());
+
 			resp.addCookie(cookie);
 		}
 	}
