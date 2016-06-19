@@ -1,5 +1,6 @@
-// var serverUrl = 'https://cobonereviews-mhewedy.rhcloud.com/';
-var serverUrl = 'http://localhost:8080';
+var serverUrl = 'https://cobonereviews-mhewedy.rhcloud.com/';
+// var serverUrl = 'http://localhost:8080';
+
 var compatibleWithServerVersion = '1.0.0';
 
 (function() {
