@@ -57,7 +57,7 @@ public class CommentController {
 			@PageableDefault(size = 5) Pageable pageable, HttpServletRequest req, HttpServletResponse resp) {
 
 		log.info("getting comments for path {}", path);
-		Page<Comment> page = commentRepo.getByDealPathOrderByCreatedDesc(path, pageable);
+		Page<Comment> page = commentRepo.getByDealPathAndActiveIsTrueOrderByCreatedDesc(path, pageable);
 
 		Cookie cookie = WebUtils.getCookie(req, COOKIE_NAME);
 		if (cookie != null) {
@@ -75,20 +75,23 @@ public class CommentController {
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
-	public ResponseEntity<?> deleteCookie(@PathVariable("id") String commentId, @CookieValue(COOKIE_NAME) String cookie,
-			HttpServletRequest req, HttpServletResponse resp) {
+	public ResponseEntity<?> deleteCookie(@PathVariable("id") Long commentId,
+			@CookieValue(COOKIE_NAME) String uuidCookie, HttpServletRequest req, HttpServletResponse resp) {
 
-		// delete cookie where id = :id and uuid = :cookie
-		// if not found, return error
+		Integer count = commentRepo.deActivate(commentId, uuidCookie);
+		log.debug("deleting commnet id {} and uuid {} returns {}", commentId, uuidCookie, count);
 
+		if (count != 1) {
+			return ResponseEntity.badRequest().build();
+		}
 		return ResponseEntity.ok().build();
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> addComments(@Valid @RequestBody(required = true) Comment comment,
-			@CookieValue(COOKIE_NAME) String cookie, HttpServletRequest req, HttpServletResponse resp) {
+			@CookieValue(COOKIE_NAME) String uuidCookie, HttpServletRequest req, HttpServletResponse resp) {
 
-		comment.setUuid(cookie);
+		comment.setUuid(uuidCookie);
 		log.debug("saving comments: {}", comment);
 
 		try {

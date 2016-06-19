@@ -38,7 +38,17 @@ function loadComments(params, page) {
 
             for (var i = 0; i < data.content.length; i++) {
                 var comment = data.content[i];
-                $('#comments').append("<h4>" + comment.name + "</h4>");
+                $('#comments').append("<span style='font-weight: bold; font-size: larger;'>" + comment.name + " </span>");
+                if (comment.canDelete) {
+                    $('#comments').append("<button type='button' id='delete-" + comment.id + "' class='btn btn-link'>" +
+                        "(" + getMessage("delete") + ")</button>");
+
+                    $("#delete-" + comment.id).unbind('click').bind('click', {
+                        id: comment.id
+                    }, function(evt) {
+                        deleteComment(evt.data.id, params)
+                    });
+                }
                 $('#comments').append("<p>" + comment.content.split('\n').join('<br />') + "</p>");
                 var diffObj = getDateDiff(new Date(comment.created));
                 $('#comments').append("<p><small>" + getMessage('since') + diffObj.duration + getMessage(diffObj.unit) +
@@ -89,7 +99,7 @@ function submitHandler(params) {
                 captcha: gRecaptchaResp
             }),
             success: function() {
-                showSuccess();
+                showSuccess('add_success_message');
                 $('input[type=text], textarea').val('');
                 $("#g-recaptcha").empty();
                 injectRecaptcha();
@@ -102,6 +112,21 @@ function submitHandler(params) {
             contentType: "application/json"
         });
     }
+}
+
+function deleteComment(id, params) {
+    $.ajax({
+        type: 'DELETE',
+        url: serverUrl + "/comments/" + id,
+        success: function() {
+            showSuccess('delete_success_message');
+            loadComments(params, 0);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            $('#fieldset').prop("disabled", false);
+            alert(jqXHR.responseText)
+        }
+    });
 }
 
 function validate(name, email, content, gRecaptchaResp) {
@@ -138,10 +163,14 @@ function addError(input, message) {
     $('#alert').css('display', 'block');
 }
 
-function showSuccess() {
-    $("#alert-message").text(getMessage('success_message'));
+function showSuccess(message) {
+    $("#alert-message").text(getMessage(message));
     $('#alert').attr("class", "alert alert-success");
     $('#alert').css('display', 'block');
+
+    $('html, body').animate({
+        scrollTop: $("#alert").offset().top
+    }, 100);
 }
 
 function restRequiredFields() {

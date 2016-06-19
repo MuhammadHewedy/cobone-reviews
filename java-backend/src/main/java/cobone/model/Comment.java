@@ -19,8 +19,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 
 @Data
@@ -30,6 +32,8 @@ import lombok.ToString;
 public class Comment implements Serializable {
 
 	private static final long serialVersionUID = 8190096715963403303L;
+
+	// -- Simple fields
 
 	@Id
 	@GeneratedValue
@@ -51,9 +55,20 @@ public class Comment implements Serializable {
 
 	private Date created = new Date();
 
+	@Getter(AccessLevel.NONE)
+	private Boolean active = Boolean.TRUE;
+
+	public Boolean isActive() {
+		return active;
+	}
+
+	// -- Associations
+
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "DEAL_ID", nullable = false)
 	private Deal deal;
+
+	// -- Transient fields
 
 	@NotBlank
 	@Transient

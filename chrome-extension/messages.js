@@ -19,7 +19,7 @@ var messages = {
         ar: 'التعليقات',
         en: 'Comments'
     },
-    success_message: {
+    add_success_message: {
         ar: 'تم إرسال التعليق بنجاح',
         en: 'Comment posted successfully'
     },
@@ -60,19 +60,27 @@ var messages = {
         en: 'Invalid email'
     },
     tweetOnTwitter: {
-      ar: 'غرد على تويتر',
-      en: 'Tweet on Twitter'
+        ar: 'غرد على تويتر',
+        en: 'Tweet on Twitter'
     },
     shareOnFacebook: {
-      ar: 'شارك على الفيسبوك',
-      en: 'Share on facebook'
+        ar: 'شارك على الفيسبوك',
+        en: 'Share on facebook'
     },
     loadMoreComments: {
-      ar: 'المزيد من التعليقات',
-      en: 'More comments'
+        ar: 'المزيد من التعليقات',
+        en: 'More comments'
     },
     required_fields_gRecaptchaResp: {
-      ar: 'من فضلك حدد مربع إختيار الكابتشا',
-      en: 'Check the captcha'
+        ar: 'من فضلك حدد مربع إختيار الكابتشا',
+        en: 'Check the captcha'
+    },
+    delete: {
+        ar: 'حذف',
+        en: 'Delete'
+    },
+    delete_success_message: {
+        ar: 'تم حذف التعليق بنجاح',
+        en: 'Comment successfully deleted'
     }
 }
