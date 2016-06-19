@@ -14,4 +14,5 @@ function translate() {
     $("#twitterButton").text(getMessage('tweetOnTwitter'))
     $("#facebookButton").text(getMessage('shareOnFacebook'))
     $("#load-more").text(getMessage('loadMoreComments'))
+    $("#facebookPage").text(getMessage('facebookPage'))
 }

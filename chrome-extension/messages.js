@@ -82,5 +82,9 @@ var messages = {
     delete_success_message: {
         ar: 'تم حذف التعليق بنجاح',
         en: 'Comment successfully deleted'
+    },
+    facebookPage: {
+      ar: 'صفحة الفيسبوك',
+      en: 'Facebook page'
     }
 }
