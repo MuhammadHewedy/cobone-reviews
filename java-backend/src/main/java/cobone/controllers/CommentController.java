@@ -55,10 +55,33 @@ public class CommentController {
 	@RequestMapping(method = RequestMethod.GET, path = "/{path}")
 	public ResponseEntity<Page<Comment>> getComments(@PathVariable("path") String path,
 			@PageableDefault(size = 5) Pageable pageable, HttpServletRequest req, HttpServletResponse resp) {
-		log.info("getting comments for path {}", path);
 
-		attachCookie(req, resp);
-		return ResponseEntity.ok(commentRepo.getByDealPathOrderByCreatedDesc(path, pageable));
+		log.info("getting comments for path {}", path);
+		Page<Comment> page = commentRepo.getByDealPathOrderByCreatedDesc(path, pageable);
+
+		Cookie cookie = WebUtils.getCookie(req, COOKIE_NAME);
+		if (cookie != null) {
+			log.debug("trying to set CanDelete flag for the comments based on user uuid {}", cookie.getValue());
+			page = page.map(comment -> {
+				if (cookie.getValue().equals(comment.getUuid())) {
+					comment.setCanDelete(true);
+				}
+				return comment;
+			});
+		}
+
+		attachCookieIfRequired(req, resp);
+		return ResponseEntity.ok(page);
+	}
+
+	@RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
+	public ResponseEntity<?> deleteCookie(@PathVariable("id") String commentId, @CookieValue(COOKIE_NAME) String cookie,
+			HttpServletRequest req, HttpServletResponse resp) {
+
+		// delete cookie where id = :id and uuid = :cookie
+		// if not found, return error
+
+		return ResponseEntity.ok().build();
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -67,7 +90,6 @@ public class CommentController {
 
 		comment.setUuid(cookie);
 		log.debug("saving comments: {}", comment);
-		attachCookie(req, resp);
 
 		try {
 			validateCaptcha(comment.getCaptcha());
@@ -107,14 +129,16 @@ public class CommentController {
 		}
 	}
 
-	private void attachCookie(HttpServletRequest req, HttpServletResponse resp) {
+	private void attachCookieIfRequired(HttpServletRequest req, HttpServletResponse resp) {
 		log.trace("attaching cookie...");
 		Cookie cookie = WebUtils.getCookie(req, COOKIE_NAME);
-		if (cookie == null || cookie.getValue() == null || cookie.getValue().trim().length() == 0) {
+
+		if (cookie == null) {
 			String cookieValue = UUID.randomUUID().toString();
 			log.debug("Cookie not found, creating one: {}", cookieValue);
 			cookie = new Cookie(COOKIE_NAME, cookieValue);
+			cookie.setMaxAge(Integer.MAX_VALUE);
+			resp.addCookie(cookie);
 		}
-		resp.addCookie(cookie);
 	}
 }

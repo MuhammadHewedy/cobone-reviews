@@ -15,6 +15,10 @@ import javax.persistence.Transient;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -41,7 +45,8 @@ public class Comment implements Serializable {
 	@Length(min = 20)
 	@Column(nullable = false)
 	private String content;
-	
+
+	@JsonIgnore
 	private String uuid;
 
 	private Date created = new Date();
@@ -49,8 +54,12 @@ public class Comment implements Serializable {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "DEAL_ID", nullable = false)
 	private Deal deal;
-	
+
 	@NotBlank
 	@Transient
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private String captcha;
+
+	@Transient
+	private boolean canDelete;
 }
