@@ -86,5 +86,9 @@ var messages = {
     facebookPage: {
       ar: 'صفحة الفيسبوك',
       en: 'Facebook page'
+    },
+    twitterButton_url: {
+      ar: 'https://goo.gl/fwU9vg',
+      en: 'https://goo.gl/yM8hhM'
     }
 }

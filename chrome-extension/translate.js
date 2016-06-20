@@ -15,4 +15,5 @@ function translate() {
     $("#facebookButton").text(getMessage('shareOnFacebook'))
     $("#load-more").text(getMessage('loadMoreComments'))
     $("#facebookPage").text(getMessage('facebookPage'))
+    $("#twitterButton").attr('href', getMessage('twitterButton_url'));
 }
