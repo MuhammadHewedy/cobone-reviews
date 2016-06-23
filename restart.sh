@@ -17,3 +17,4 @@ fi
 #start
 #note before starting the app, the enviroment variables defined in README.md should be declared in the environment
 nohup java -jar java-backend/target/*.jar  &
+
