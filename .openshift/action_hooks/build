@@ -1,7 +1,0 @@
-#!/bin/bash
-
-export JAVA_HOME=/etc/alternatives/java_sdk_1.8.0
-export PATH=$JAVA_HOME/bin:$PATH
-
-cd $OPENSHIFT_REPO_DIR/java-backend
-$HOME/app-root/runtime/mvn -Dmaven.repo.local=$HOME/app-root/runtime/.m2 package -DskipTests=true
