@@ -1,7 +1,5 @@
-// var serverUrl = 'https://cobonereviews.tk/';
-var serverUrl = 'http://localhost:8080';
-
-var compatibleWithServerVersion = '1.0.0';
+var serverUrl = 'https://cobonereviews.tk/';
+// var serverUrl = 'http://localhost:8080';
 
 (function() {
     injectRecaptcha();
