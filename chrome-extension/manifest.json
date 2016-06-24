@@ -9,8 +9,7 @@
     ],
     "content_scripts": [{
         "matches": ["https://www.cobone.com/*"],
-        "css": ["lib/bootstrap.min.css"],
-        "js": ["lib/jquery.min.js", "lib/bootstrap.min.js", "messages.js", "translate.js", "comments.js"],
+        "js": ["lib/jquery.min.js", "messages.js", "translate.js", "comments.js"],
         "run_at": "document_end"
     }],
     "manifest_version": 2,
