@@ -2,7 +2,7 @@
     "name": "__MSG_appName__",
     "description": "__MSG_appDesc__",
     "default_locale": "ar",
-    "version": "0.2",
+    "version": "0.3",
     "permissions": [
         "cookies",
         "<all_urls>"
