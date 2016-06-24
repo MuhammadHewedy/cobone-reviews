@@ -1,5 +1,5 @@
-var serverUrl = 'https://cobonereviews.tk/';
-// var serverUrl = 'http://localhost:8080';
+// var serverUrl = 'https://cobonereviews.tk/';
+var serverUrl = 'http://localhost:8080';
 
 var compatibleWithServerVersion = '1.0.0';
 
@@ -19,7 +19,7 @@ var compatibleWithServerVersion = '1.0.0';
             translate();
         });
         loadComments({
-            'path': window.location.pathname.split("/").join("~").substring(4)
+            'path': window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)
         }, 0);
     }
 })();
@@ -97,6 +97,7 @@ function submitHandler(params) {
                 name: name,
                 email: email,
                 content: content,
+                url: window.location.pathname,
                 captcha: gRecaptchaResp
             }),
             success: function() {

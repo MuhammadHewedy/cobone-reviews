@@ -50,6 +50,8 @@ public class Comment implements Serializable {
 	@Column(nullable = false)
 	private String content;
 
+	private String url;
+
 	@JsonIgnore
 	private String uuid;
 
