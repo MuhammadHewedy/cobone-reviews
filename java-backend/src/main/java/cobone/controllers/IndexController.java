@@ -1,5 +1,8 @@
 package cobone.controllers;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,5 +21,10 @@ public class IndexController {
 	@RequestMapping(method = RequestMethod.GET, path = "/info")
 	public ResponseEntity<?> getVersion() {
 		return ResponseEntity.ok(new Info(appVersion));
+	}
+
+	@RequestMapping(method = RequestMethod.GET, path = "/ar")
+	public void arabic(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+		req.getRequestDispatcher("/index_ar.html").forward(req, resp);
 	}
 }
