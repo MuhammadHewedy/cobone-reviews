@@ -36,7 +36,8 @@ function logToServer(action) {
 		method : 'POST',
 		data : JSON.stringify({
 			path : window.location.pathname,
-			action : action
+			action : action,
+			referrer : document.referrer.split('/')[2];
 		}),
 		contentType : 'application/json',
 		success : function() {

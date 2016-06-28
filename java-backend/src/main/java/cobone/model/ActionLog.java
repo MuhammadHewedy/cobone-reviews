@@ -22,6 +22,7 @@ public class ActionLog {
 	@Enumerated(EnumType.STRING)
 	private Action action;
 	private Date created = new Date();
+	private String referrer;
 
 	public enum Action {
 		PAGE_LOAD, PAGE_SCROLL, WATCH_CLICK, DOWNLOAD_CLICK, CONTACT_CLICK, STORE_BUTTON_CLICK
