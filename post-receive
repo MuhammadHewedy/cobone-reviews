@@ -1,0 +1,13 @@
+#!/bin/sh
+# git post-receive hook file
+
+DEPLOY_DIR=/var/app/deploy
+REPO_DIR=/var/repo/cobonereviews.git
+DATA_DIR=/var/app/data
+
+git --work-tree=$DEPLOY_DIR --git-dir=$REPO_DIR checkout -f
+
+. $DATA_DIR/setenv.sh
+
+cd $DEPLOY_DIR
+./restart.sh
