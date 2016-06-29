@@ -9,6 +9,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,7 @@ public class LoggerController {
 		allList.forEach(a -> entry.getValue().add(new DailyCount(entry.getKey(), a, 0l)));
 	}
 
-	private ObjectNode optimizeForCharts(List<DailyCount> list, Collection<?> allList,
+	private Object optimizeForCharts(List<DailyCount> list, Collection<?> allList,
 			boolean compareAndSort /*
 									 * TODO in a fancy world, one should
 									 * encapsulate behavior using interfaces
@@ -71,6 +72,7 @@ public class LoggerController {
 
 		Map<Date, List<DailyCount>> collect = list.stream().collect(groupingBy(DailyCount::getDay));
 		collect.entrySet().stream().forEach(e -> fillAndSortEntry(e, allList));
+		collect = new TreeMap<>(collect);	// sorting
 
 		Map<Object, List<Long>> collect2 = collect.values().stream().flatMap(o -> o.stream())
 				.collect(groupingBy(DailyCount::getAction, mapping(DailyCount::getCount, toList())));

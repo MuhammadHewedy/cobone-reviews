@@ -1,6 +1,9 @@
 #!/bin/sh
 # git post-receive hook file
 
+# This is an example file to be used on the server
+# Changing this file will **not** change the file on the server
+
 DEPLOY_DIR=/var/app/deploy
 REPO_DIR=/var/repo/cobonereviews.git
 DATA_DIR=/var/app/data
