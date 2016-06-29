@@ -51,7 +51,8 @@
 					},
 					tooltip : {
 						crosshairs : true,
-						shared : true
+						shared : true,
+						hideDelay: 0
 					},
 					plotOptions : {
 						spline : {
@@ -103,11 +104,12 @@
 						}
 					},
 					tooltip : {
-						headerFormat : '<span style="font-size:10px">{point.key}</span><table>',
-						pointFormat : '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:1f} </b></td></tr>',
+						headerFormat : '<span style="font-size:12px">{point.key}</span><table>',
+						pointFormat : '<tr style="font-size: 12px;"><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:1f} </b></td></tr>',
 						footerFormat : '</table>',
 						shared : true,
-						useHTML : true
+						useHTML : true,
+						hideDelay: 0
 					},
 					plotOptions : {
 						column : {
