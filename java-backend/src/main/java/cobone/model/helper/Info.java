@@ -1,4 +1,4 @@
-package cobone.model;
+package cobone.model.helper;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

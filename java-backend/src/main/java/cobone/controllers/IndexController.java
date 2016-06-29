@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import cobone.model.Info;
+import cobone.model.helper.Info;
 
 @RestController
 @RequestMapping("/")
@@ -26,5 +26,10 @@ public class IndexController {
 	@RequestMapping(method = RequestMethod.GET, path = "/ar")
 	public void arabic(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		req.getRequestDispatcher("/index_ar.html").forward(req, resp);
+	}
+
+	@RequestMapping(method = RequestMethod.GET, path = "/stats")
+	public void stats(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+		req.getRequestDispatcher("/statistics.html").forward(req, resp);
 	}
 }
