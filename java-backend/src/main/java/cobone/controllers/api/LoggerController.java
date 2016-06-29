@@ -1,4 +1,4 @@
-package cobone.controllers;
+package cobone.controllers.api;
 
 import static java.util.stream.Collectors.*;
 
@@ -30,7 +30,7 @@ import cobone.model.helper.Series;
 import cobone.repo.ActionLogRepo;
 
 @RestController
-@RequestMapping("/logger")
+@RequestMapping("/api/logger")
 public class LoggerController {
 
 	@Autowired
@@ -65,10 +65,10 @@ public class LoggerController {
 	}
 
 	private Object optimizeForCharts(List<DailyCount> list, Collection<?> allList,
-			boolean compareAndSort /*
-									 * TODO in a fancy world, one should
-									 * encapsulate behavior using interfaces
-									 */) {
+			boolean sortAndMap /*
+								 * TODO in a ideal world, this parameter should
+								 * encapsulate using interfaces => Clean code
+								 */) {
 
 		Map<Date, List<DailyCount>> collect = list.stream().collect(groupingBy(DailyCount::getDay));
 		collect.entrySet().stream().forEach(e -> fill(e, allList));
@@ -80,7 +80,7 @@ public class LoggerController {
 		List<Series> series = collect2.entrySet().stream().map(e -> new Series(e.getKey().toString(), e.getValue()))
 				.collect(Collectors.toList());
 
-		if (compareAndSort) {
+		if (sortAndMap) {
 			series.sort(Comparator.comparing(s -> Action.forName(s.getName().toString())));
 			series.forEach(s -> s.setName(Action.forName(s.getName().toString()).getName()));
 		}

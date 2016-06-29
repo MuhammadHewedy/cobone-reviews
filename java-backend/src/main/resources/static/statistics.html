@@ -21,15 +21,12 @@
 <script>
 	function allStats() {
 		$.ajax({
-			url : '/logger/stats/all',
+			url : '/api/logger/stats/all',
 			method : 'GET',
 			contentType : 'application/json',
 			success : function(data) {
 				console.log(data);
 				$('#container1').highcharts({
-					chart : {
-						type : 'spline'
-					},
 					title : {
 						text : 'All Action chart'
 					},
@@ -78,7 +75,7 @@
 			title += word.toLowerCase().charAt(0).toUpperCase() + word.toLowerCase().slice(1) + ' '
 		});
 		$.ajax({
-			url : '/logger/stats/referrer/' + action,
+			url : '/api/logger/stats/referrer/' + action,
 			method : 'GET',
 			contentType : 'application/json',
 			success : function(data) {

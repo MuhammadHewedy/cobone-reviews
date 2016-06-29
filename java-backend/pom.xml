@@ -5,7 +5,7 @@
 
 	<groupId>cobone-reviews</groupId>
 	<artifactId>cobone-reviews</artifactId>
-	<version>0.4</version>
+	<version>0.5</version>
 	<packaging>jar</packaging>
 
 	<name>cobone-reviews</name>

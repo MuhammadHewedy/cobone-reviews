@@ -32,7 +32,7 @@ $(".storeButton").bind("click", function() {
 function logToServer(action) {
 	console.log(action);
 	$.ajax({
-		url : '/logger',
+		url : '/api/logger',
 		method : 'POST',
 		data : JSON.stringify({
 			path : window.location.pathname,

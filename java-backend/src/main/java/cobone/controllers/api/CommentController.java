@@ -1,4 +1,4 @@
-package cobone.controllers;
+package cobone.controllers.api;
 
 import java.util.UUID;
 
@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/comments")
+@RequestMapping("/api/comments")
 public class CommentController {
 
 	private static final String RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
