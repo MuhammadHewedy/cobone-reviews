@@ -1,0 +1,4 @@
+@CHARSET "UTF-8";
+iframe, object, embed {
+    max-width: 100%;
+}
