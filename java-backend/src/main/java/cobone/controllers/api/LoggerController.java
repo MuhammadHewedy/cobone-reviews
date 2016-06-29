@@ -51,11 +51,12 @@ public class LoggerController {
 	@RequestMapping(method = RequestMethod.GET, path = "/stats/all")
 	public ResponseEntity<?> getAllActions() {
 		List<DailyCount> list = actionLogRepo.getAllActions();
-		return ResponseEntity.ok(optimizeForCharts(list, EnumSet.allOf(Action.class), series -> {
-			series.sort(Comparator.comparing(s -> Action.forName(s.getName().toString())));
-			series.forEach(s -> s.setName(Action.forName(s.getName().toString()).getName()));
-			return series;
-		}));
+		return ResponseEntity.ok(optimizeForCharts(list, EnumSet.allOf(Action.class), (List<Series> series) -> series.stream()
+					.filter(s -> Action.forName(s.getName()).getOrder() > 0)
+					.sorted(Comparator.comparing(s -> Action.forName(s.getName()).getOrder()))
+					.map(s -> new Series(Action.forName(s.getName()).getName(), s.getData()))
+					.collect(toList())
+			));
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "/stats/referrer/{action}")

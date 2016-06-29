@@ -28,12 +28,12 @@ public class ActionLog {
 	private String referrer;
 
 	public enum Action {
+		// Order <= 0 means hide from statistics
 		PAGE_LOAD("Page Load", 1), 
-		PAGE_SCROLL("Page Scroll", 2), 
-		WATCH_CLICK("Watch Click", 3), 
-		DOWNLOAD_CLICK("Download Click", 4), 
-		CONTACT_CLICK("Contact Click", 6), 
-		STORE_BUTTON_CLICK("Store Button Click", 5);
+		PAGE_SCROLL("Page Scroll", 3), 
+		WATCH_CLICK("Watch Click", 4), 
+		CONTACT_CLICK("Contact Click", -1), 
+		STORE_BUTTON_CLICK("Store Button Click", 2);
 		
 		String name;
 		int order;
