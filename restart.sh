@@ -2,7 +2,7 @@
 
 #build
 cd java-backend
-mvn package -DskipTests=true
+mvn clean package -DskipTests=true
 cd -
 
 #stop
