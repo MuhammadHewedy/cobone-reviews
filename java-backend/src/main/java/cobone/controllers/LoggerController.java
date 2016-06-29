@@ -3,6 +3,7 @@ package cobone.controllers;
 import static java.util.stream.Collectors.*;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.EnumSet;
@@ -58,10 +59,10 @@ public class LoggerController {
 
 	/// ------------------------------ private --------------------------------
 
-	private void fillAndSortEntry(Entry<Date, List<DailyCount>> entry, Collection<?> allList) {
-		allList.removeAll(entry.getValue().stream().map(o -> o.getAction()).collect(toList()));
-		// fill zeros
-		allList.forEach(a -> entry.getValue().add(new DailyCount(entry.getKey(), a, 0l)));
+	private void fill(Entry<Date, List<DailyCount>> entry, Collection<?> allList) {
+		List<Object> entryList = entry.getValue().stream().map(ev -> ev.getAction()).collect(Collectors.toList());
+		allList.stream().filter(a -> !entryList.contains(a))
+				.forEach(a -> entry.getValue().add(new DailyCount(entry.getKey(), a, 0l)));
 	}
 
 	private Object optimizeForCharts(List<DailyCount> list, Collection<?> allList,
@@ -71,8 +72,8 @@ public class LoggerController {
 									 */) {
 
 		Map<Date, List<DailyCount>> collect = list.stream().collect(groupingBy(DailyCount::getDay));
-		collect.entrySet().stream().forEach(e -> fillAndSortEntry(e, allList));
-		collect = new TreeMap<>(collect);	// sorting
+		collect.entrySet().stream().forEach(e -> fill(e, allList));
+		collect = new TreeMap<>(collect); // sorting
 
 		Map<Object, List<Long>> collect2 = collect.values().stream().flatMap(o -> o.stream())
 				.collect(groupingBy(DailyCount::getAction, mapping(DailyCount::getCount, toList())));
