@@ -52,7 +52,7 @@ public class ActionLog {
 		}
 
 		public static Action forName(final String name) {
-			log.debug("for naming: {}", name);
+			log.trace("for naming: {}", name);
 			return EnumSet.allOf(Action.class).stream().filter(o -> o.name() == name).findFirst().get();
 		}
 	}
