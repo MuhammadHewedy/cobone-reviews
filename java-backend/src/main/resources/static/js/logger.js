@@ -16,10 +16,6 @@ $(".watchButton").bind("click", function() {
 	var action = 'WATCH_CLICK';
 	logToServer(action);
 });
-$(".downloadButton").bind("click", function() {
-	var action = 'DOWNLOAD_CLICK';
-	logToServer(action);
-});
 $(".contactButton").bind("click", function() {
 	var action = 'CONTACT_CLICK';
 	logToServer(action);

@@ -29,7 +29,9 @@ import cobone.model.ActionLog.Action;
 import cobone.model.helper.DailyCount;
 import cobone.model.helper.Series;
 import cobone.repo.ActionLogRepo;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/logger")
 public class LoggerController {
@@ -41,6 +43,7 @@ public class LoggerController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> logUIActions(@RequestBody ActionLog actionLog) {
+		log.debug("logging {} action", actionLog.getAction());
 		actionLogRepo.save(actionLog);
 		return ResponseEntity.ok().build();
 	}
