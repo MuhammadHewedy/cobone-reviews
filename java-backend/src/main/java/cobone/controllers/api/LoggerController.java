@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,42 +48,47 @@ public class LoggerController {
 	@RequestMapping(method = RequestMethod.GET, path = "/stats/all")
 	public ResponseEntity<?> getAllActions() {
 		List<DailyCount> list = actionLogRepo.getAllActions();
-		return ResponseEntity.ok(optimizeForCharts(list, EnumSet.allOf(Action.class), true));
+		return ResponseEntity.ok(optimizeForCharts(list, EnumSet.allOf(Action.class), series -> {
+			series.sort(Comparator.comparing(s -> Action.forName(s.getName().toString())));
+			series.forEach(s -> s.setName(Action.forName(s.getName().toString()).getName()));
+			return series;
+		}));
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "/stats/referrer/{action}")
 	public ResponseEntity<?> getAllActivites(@PathVariable("action") Action action) {
 		List<DailyCount> list = actionLogRepo.getReferrerByAction(action);
-		return ResponseEntity.ok(optimizeForCharts(list, actionLogRepo.findDistinctReferrer(), false));
+		return ResponseEntity.ok(optimizeForCharts(list, actionLogRepo.findDistinctReferrer(), null));
 	}
 
 	/// ------------------------------ private --------------------------------
 
-	private void fill(Entry<Date, List<DailyCount>> entry, Collection<?> allList) {
+	private void zeroFill(Entry<Date, List<DailyCount>> entry, Collection<?> allList) {
 		List<Object> entryList = entry.getValue().stream().map(ev -> ev.getAction()).collect(Collectors.toList());
 		allList.stream().filter(a -> !entryList.contains(a))
 				.forEach(a -> entry.getValue().add(new DailyCount(entry.getKey(), a, 0l)));
 	}
 
-	private Object optimizeForCharts(List<DailyCount> list, Collection<?> allList,
-			boolean sortAndMap /*
-								 * TODO in a ideal world, this parameter should
-								 * encapsulate using interfaces => Clean code
-								 */) {
-
+	private ObjectNode optimizeForCharts(List<DailyCount> list, Collection<?> allList,
+			Function<List<Series>, List<Series>> mapper) {
+		// Group by Day
 		Map<Date, List<DailyCount>> collect = list.stream().collect(groupingBy(DailyCount::getDay));
-		collect.entrySet().stream().forEach(e -> fill(e, allList));
-		collect = new TreeMap<>(collect); // sorting
+		// Fill missing data by Zeros
+		collect.entrySet().stream().forEach(e -> zeroFill(e, allList));
+		// Sort by Day
+		collect = new TreeMap<>(collect);
 
+		// Group values by Action and get a Map of Action to List of Counts
 		Map<Object, List<Long>> collect2 = collect.values().stream().flatMap(o -> o.stream())
 				.collect(groupingBy(DailyCount::getAction, mapping(DailyCount::getCount, toList())));
 
+		// Convert the Action-List of Counts Map to List of Series
 		List<Series> series = collect2.entrySet().stream().map(e -> new Series(e.getKey().toString(), e.getValue()))
 				.collect(Collectors.toList());
 
-		if (sortAndMap) {
-			series.sort(Comparator.comparing(s -> Action.forName(s.getName().toString())));
-			series.forEach(s -> s.setName(Action.forName(s.getName().toString()).getName()));
+		// If Series Mapper is not null, Apply user-provided mapping
+		if (mapper != null) {
+			series = mapper.apply(series);
 		}
 
 		ObjectNode root = objectMapper.createObjectNode();
