@@ -7,6 +7,8 @@
 <hr />
 <div id="container_PAGE_LOAD" style="min-width: 310px; height: 400px; margin: 0 auto; padding-top: 35px;"></div>
 <hr />
+<div id="container_TIME_SPENT" style="min-width: 310px; height: 400px; margin: 0 auto; padding-top: 35px;"></div>
+<hr />
 <div id="container_STORE_BUTTON_CLICK" style="min-width: 310px; height: 400px; margin: 0 auto; padding-top: 35px;"></div>
 <hr />
 <div id="container_PAGE_SCROLL" style="min-width: 310px; height: 400px; margin: 0 auto; padding-top: 35px;"></div>
@@ -47,7 +49,7 @@
 					tooltip : {
 						crosshairs : true,
 						shared : true,
-						hideDelay: 0
+						hideDelay : 0
 					},
 					plotOptions : {
 						spline : {
@@ -67,7 +69,7 @@
 		})
 	}
 
-	function getReferrer(action) {
+	function getReferrer(action, options) {
 		var title = ''
 		action.split('_').forEach(function(word) {
 			title += word.toLowerCase().charAt(0).toUpperCase() + word.toLowerCase().slice(1) + ' '
@@ -83,7 +85,7 @@
 						type : 'column'
 					},
 					title : {
-						text : title
+						text : options ? options.title : title
 					},
 					subtitle : {
 						text : ''
@@ -95,7 +97,7 @@
 					yAxis : {
 						min : 0,
 						title : {
-							text : 'Hit'
+							text : options ? options.yAxisText : 'Hit'
 						}
 					},
 					tooltip : {
@@ -104,7 +106,7 @@
 						footerFormat : '</table>',
 						shared : true,
 						useHTML : true,
-						hideDelay: 0
+						hideDelay : 0
 					},
 					plotOptions : {
 						column : {
@@ -131,4 +133,8 @@
 	getReferrer('WATCH_CLICK');
 	getReferrer('CONTACT_CLICK');
 	getReferrer('STORE_BUTTON_CLICK');
+	getReferrer('TIME_SPENT', {
+		title : 'Average Time Spent',
+		yAxisText : 'Seconds'
+	});
 </script>

@@ -13,5 +13,5 @@ public class DailyCount {
 	@JsonIgnore
 	private Date day;
 	private Object action;
-	private Long count;
+	private Long value;
 }

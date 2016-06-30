@@ -51,17 +51,21 @@ public class LoggerController {
 	@RequestMapping(method = RequestMethod.GET, path = "/stats/all")
 	public ResponseEntity<?> getAllActions() {
 		List<DailyCount> list = actionLogRepo.getAllActions();
-		return ResponseEntity.ok(optimizeForCharts(list, EnumSet.allOf(Action.class), (List<Series> series) -> series.stream()
-					.filter(s -> Action.forName(s.getName()).getOrder() > 0)
-					.sorted(Comparator.comparing(s -> Action.forName(s.getName()).getOrder()))
-					.map(s -> new Series(Action.forName(s.getName()).getName(), s.getData()))
-					.collect(toList())
-			));
+		return ResponseEntity.ok(optimizeForCharts(list, EnumSet.allOf(Action.class),
+				(List<Series> series) -> series.stream().filter(s -> Action.forName(s.getName()).getOrder() > 0)
+						.sorted(Comparator.comparing(s -> Action.forName(s.getName()).getOrder()))
+						.map(s -> new Series(Action.forName(s.getName()).getName(), s.getData())).collect(toList())));
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "/stats/referrer/{action}")
 	public ResponseEntity<?> getAllActivites(@PathVariable("action") Action action) {
-		List<DailyCount> list = actionLogRepo.getReferrerByAction(action);
+		List<DailyCount> list;
+		if (action == Action.TIME_SPENT) {
+			list = actionLogRepo.getReferrerSumByAction(action);
+		} else {
+			list = actionLogRepo.getReferrerCountByAction(action);
+		}
+
 		return ResponseEntity.ok(optimizeForCharts(list, actionLogRepo.findDistinctReferrer(), null));
 	}
 
@@ -84,7 +88,7 @@ public class LoggerController {
 
 		// Group values by Action and get a Map of Action to List of Counts
 		Map<Object, List<Long>> collect2 = collect.values().stream().flatMap(o -> o.stream())
-				.collect(groupingBy(DailyCount::getAction, mapping(DailyCount::getCount, toList())));
+				.collect(groupingBy(DailyCount::getAction, mapping(DailyCount::getValue, toList())));
 
 		// Convert the Action-List of Counts Map to List of Series
 		List<Series> series = collect2.entrySet().stream().map(e -> new Series(e.getKey().toString(), e.getValue()))

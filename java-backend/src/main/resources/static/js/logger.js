@@ -1,6 +1,11 @@
 $(document).ready(function() {
 	var action = 'PAGE_LOAD';
 	logToServer(action);
+
+	var start = Date.now();
+	$(window).bind('beforeunload', function() {
+		logToServer('TIME_SPENT', Math.round((Date.now() - start)/1000));
+	});
 });
 
 $(document).scroll(function() {
@@ -25,7 +30,7 @@ $(".storeButton").bind("click", function() {
 	logToServer(action);
 });
 
-function logToServer(action) {
+function logToServer(action, value) {
 	console.log(action);
 	$.ajax({
 		url : '/api/logger',
@@ -33,7 +38,8 @@ function logToServer(action) {
 		data : JSON.stringify({
 			path : window.location.pathname,
 			action : action,
-			referrer : document.referrer.split('/')[2]
+			referrer : document.referrer.split('/')[2],
+			value: value
 		}),
 		contentType : 'application/json',
 		success : function() {
