@@ -35,7 +35,7 @@ public class ActionLog {
 		WATCH_CLICK("Watch Click", 5), 
 		CONTACT_CLICK("Contact Click", -1), 
 		STORE_BUTTON_CLICK("Store Button Click", 3),
-		TIME_SPENT("Average Time Spent", -1);
+		TIME_SPENT("Average Time Spent", 2);
 		
 		String name;
 		int order;
