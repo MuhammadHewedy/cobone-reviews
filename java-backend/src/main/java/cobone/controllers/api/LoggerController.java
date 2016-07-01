@@ -2,6 +2,7 @@ package cobone.controllers.api;
 
 import static java.util.stream.Collectors.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,6 +43,9 @@ public class LoggerController {
 	private ActionLogRepo actionLogRepo;
 	@Autowired
 	private ObjectMapper objectMapper;
+
+	@Value("${group-by-topPrivateDomain:false}")
+	private Boolean groupByTPDomain;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> logUIActions(@RequestBody ActionLog actionLog) {
@@ -84,7 +89,7 @@ public class LoggerController {
 				.forEach(a -> entry.getValue().add(new DailyCount(entry.getKey(), a, 0l)));
 	}
 
-	private ObjectNode optimizeForCharts(List<DailyCount> list, Collection<?> allList,
+	private Object optimizeForCharts(List<DailyCount> list, Collection<?> allList,
 			Function<List<Series>, List<Series>> mapper) {
 		// Group by Day
 		Map<Date, List<DailyCount>> collect = list.stream().collect(groupingBy(DailyCount::getDay));
@@ -97,8 +102,15 @@ public class LoggerController {
 		Map<Object, List<Long>> collect2 = collect.values().stream().flatMap(o -> o.stream())
 				.collect(groupingBy(DailyCount::getAction, mapping(DailyCount::getValue, toList())));
 
+		// Group values by the top private domain
+		Map<Object, List<Long>> collect3 = collect2;
+		if (groupByTPDomain) {
+			collect3 = collect2.entrySet().stream().collect(groupingBy(e -> getDomainName(e.getKey()),
+					reducing(new ArrayList<Long>(), e -> e.getValue(), (l1, l2) -> addTwoLists(l1, l2))));
+		}
+
 		// Convert the Action-List of Counts Map to List of Series
-		List<Series> series = collect2.entrySet().stream().map(e -> new Series(e.getKey().toString(), e.getValue()))
+		List<Series> series = collect3.entrySet().stream().map(e -> new Series(e.getKey().toString(), e.getValue()))
 				.collect(Collectors.toList());
 
 		// If Series Mapper is not null, Apply user-provided mapping
@@ -113,7 +125,19 @@ public class LoggerController {
 		return root;
 	}
 
-	// TODO used to group referrers by topPrivateDomain
+	private List<Long> addTwoLists(List<Long> acc, List<Long> list) {
+		if (acc.isEmpty()) {
+			return list;
+		} else {
+			for (int i = 0; i < acc.size(); i++) {
+				acc.set(i, acc.get(i) + list.get(i));
+			}
+			return acc;
+		}
+	}
+
+	// Example: www.google.com.sa, google.com, google.eg all translated to
+	// google
 	private String getDomainName(Object referrer) {
 		try {
 			String topPrivateDomain = InternetDomainName.from(referrer.toString()).topPrivateDomain().name();

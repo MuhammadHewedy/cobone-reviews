@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 @RequestMapping("/")
 public class IndexController {
 
-	@Value("${app_version}")
+	@Value("${app-version}")
 	private String appVersion;
 	@Autowired
 	private ObjectMapper objectMapper;
