@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.net.InternetDomainName;
 
 import cobone.model.ActionLog;
 import cobone.model.ActionLog.Action;
@@ -110,5 +111,19 @@ public class LoggerController {
 		root.putPOJO("series", series);
 
 		return root;
+	}
+
+	// TODO used to group referrers by topPrivateDomain
+	private String getDomainName(Object referrer) {
+		try {
+			String topPrivateDomain = InternetDomainName.from(referrer.toString()).topPrivateDomain().name();
+			String publicSuffix = InternetDomainName.from(referrer.toString()).publicSuffix().name();
+			String onlyDomainName = topPrivateDomain.replace(publicSuffix, "");
+			return onlyDomainName.endsWith(".") ? onlyDomainName.substring(0, onlyDomainName.length() - 1)
+					: onlyDomainName;
+		} catch (Exception ex) {
+			log.error(ex.getMessage());
+			return referrer.toString();
+		}
 	}
 }
