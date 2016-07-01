@@ -52,8 +52,8 @@ public class LoggerController {
 	public ResponseEntity<?> getAllActions() {
 
 		List<DailyCount> list = actionLogRepo.getAllActionsNoTimeSpent();
-		List<DailyCount> timeSpentList = actionLogRepo.getTimeSpentAction().stream()
-				.map(arr -> new DailyCount((Date) arr[0], (Object) Action.forName("TIME_SPENT"), (Long) arr[1]))
+		List<DailyCount> timeSpentList = actionLogRepo.getTimeSpentAction().stream().map(
+				arr -> new DailyCount((Date) arr[0], (Object) Action.forName(Action.TIME_SPENT.name()), (Long) arr[1]))
 				.collect(toList());
 		list.addAll(timeSpentList);
 
