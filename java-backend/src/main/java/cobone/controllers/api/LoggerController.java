@@ -106,7 +106,7 @@ public class LoggerController {
 		Map<Object, List<Long>> collect3 = collect2;
 		if (groupByTPDomain) {
 			collect3 = collect2.entrySet().stream().collect(groupingBy(e -> getDomainName(e.getKey()),
-					reducing(new ArrayList<Long>(), e -> e.getValue(), (l1, l2) -> addTwoLists(l1, l2))));
+					reducing(new ArrayList<Long>(), e -> e.getValue(), (l1, l2) -> accumlateLists(l1, l2))));
 		}
 
 		// Convert the Action-List of Counts Map to List of Series
@@ -125,14 +125,14 @@ public class LoggerController {
 		return root;
 	}
 
-	private List<Long> addTwoLists(List<Long> acc, List<Long> list) {
-		if (acc.isEmpty()) {
+	private List<Long> accumlateLists(List<Long> accumlator, List<Long> list) {
+		if (accumlator.isEmpty()) {
 			return list;
 		} else {
-			for (int i = 0; i < acc.size(); i++) {
-				acc.set(i, acc.get(i) + list.get(i));
+			for (int i = 0; i < accumlator.size(); i++) {
+				accumlator.set(i, accumlator.get(i) + list.get(i));
 			}
-			return acc;
+			return accumlator;
 		}
 	}
 
