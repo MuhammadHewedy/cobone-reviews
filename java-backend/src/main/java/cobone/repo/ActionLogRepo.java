@@ -28,6 +28,6 @@ public interface ActionLogRepo extends JpaRepository<ActionLog, Long> {
 			+ "from ActionLog o where o.referrer is not null and o.action = :action group by date(o.created), o.referrer")
 	public List<DailyCount> getReferrerAvgByAction(@Param("action") Action action);
 
-	@Query("select distinct o.referrer from ActionLog o where o.referrer is not null")
-	public List<String> findDistinctReferrer();
+	@Query("select distinct o.referrer from ActionLog o where o.referrer is not null and o.action = :action")
+	public List<String> findDistinctReferrer(@Param("action") Action action);
 }

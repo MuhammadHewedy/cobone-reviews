@@ -72,7 +72,7 @@ public class LoggerController {
 			list = actionLogRepo.getReferrerCountByAction(action);
 		}
 
-		return ResponseEntity.ok(optimizeForCharts(list, actionLogRepo.findDistinctReferrer(), null));
+		return ResponseEntity.ok(optimizeForCharts(list, actionLogRepo.findDistinctReferrer(action), null));
 	}
 
 	/// ------------------------------ private --------------------------------
