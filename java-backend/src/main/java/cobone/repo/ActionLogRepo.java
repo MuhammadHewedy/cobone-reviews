@@ -26,7 +26,7 @@ public interface ActionLogRepo extends JpaRepository<ActionLog, Long> {
 
 	@Query("select new cobone.model.helper.DailyCount(date(o.created), o.referrer, cast(avg (o.value) as long) ) "
 			+ "from ActionLog o where o.referrer is not null and o.action = :action group by date(o.created), o.referrer")
-	public List<DailyCount> getReferrerSumByAction(@Param("action") Action action);
+	public List<DailyCount> getReferrerAvgByAction(@Param("action") Action action);
 
 	@Query("select distinct o.referrer from ActionLog o where o.referrer is not null")
 	public List<String> findDistinctReferrer();

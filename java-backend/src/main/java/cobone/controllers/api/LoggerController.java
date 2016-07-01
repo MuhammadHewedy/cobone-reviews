@@ -67,7 +67,7 @@ public class LoggerController {
 	public ResponseEntity<?> getAllActivites(@PathVariable("action") Action action) {
 		List<DailyCount> list;
 		if (action == Action.TIME_SPENT) {
-			list = actionLogRepo.getReferrerSumByAction(action);
+			list = actionLogRepo.getReferrerAvgByAction(action);
 		} else {
 			list = actionLogRepo.getReferrerCountByAction(action);
 		}
