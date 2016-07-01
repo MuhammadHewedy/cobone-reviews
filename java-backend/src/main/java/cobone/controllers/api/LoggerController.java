@@ -58,11 +58,12 @@ public class LoggerController {
 	public ResponseEntity<?> getAllActions() {
 
 		List<DailyCount> list = actionLogRepo.getAllActionsNoTimeSpent();
+		/*
 		List<DailyCount> timeSpentList = actionLogRepo.getTimeSpentAction().stream().map(
 				arr -> new DailyCount((Date) arr[0], (Object) Action.forName(Action.TIME_SPENT.name()), (Long) arr[1]))
 				.collect(toList());
 		list.addAll(timeSpentList);
-
+		*/
 		return ResponseEntity.ok(optimizeForCharts(list, EnumSet.allOf(Action.class),
 				(List<Series> series) -> series.stream().filter(s -> Action.forName(s.getName()).getOrder() > 0)
 						.sorted(Comparator.comparing(s -> Action.forName(s.getName()).getOrder()))
