@@ -37,16 +37,16 @@ public class ActionLog {
 		STORE_BUTTON_CLICK("Store Click", 3),
 		TIME_SPENT("Average Time Spent", -1);
 		
-		String name;
+		String displayName;
 		int order;
 
-		Action(String name, int order) {
-			this.name = name;
+		Action(String displayName, int order) {
+			this.displayName = displayName;
 			this.order = order;
 		}
 
-		public String getName() {
-			return name;
+		public String getDisplayName() {
+			return displayName;
 		}
 
 		public int getOrder() {
