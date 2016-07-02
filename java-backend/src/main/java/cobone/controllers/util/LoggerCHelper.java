@@ -5,10 +5,12 @@ import static java.util.stream.Collectors.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.Sets;
 import com.google.common.net.InternetDomainName;
 
 import cobone.model.helper.DailyCount;
@@ -33,18 +36,17 @@ public class LoggerCHelper { // LoggerControllerHelper
 	@Value("${group-by-topPrivateDomain:false}")
 	private Boolean groupByTPDomain;
 
-	public Object convertToChartsFormat(List<DailyCount> list, Collection<?> allList,
+	public Object convertToChartsFormat(List<DailyCount> list, Collection<?> allDailyNames,
 			Function<List<Series>, List<Series>> mapper) {
-		// Group by Day
-		Map<Date, List<DailyCount>> collect = list.stream().collect(groupingBy(DailyCount::getDay));
-		// Fill missing data by Zeros
-		collect.entrySet().stream().forEach(e -> zeroFill(e, allList));
-		// Sort by Day
-		collect = new TreeMap<>(collect);
+		// Group by Day, and return sorted by Date
+		Map<Date, List<DailyCount>> collect = new TreeMap<>(list.stream().collect(groupingBy(DailyCount::getDay)));
 
-		// Group values by Action and get a Map of Action to List of Counts
+		// Fill missing data by Zeros
+		collect.entrySet().stream().forEach(e -> zeroFillMissingDailyName(e, allDailyNames));
+
+		// Group values by Name and get a Map of Name to List of values
 		Map<Object, List<Long>> collect2 = collect.values().stream().flatMap(o -> o.stream())
-				.collect(groupingBy(DailyCount::getAction, mapping(DailyCount::getValue, toList())));
+				.collect(groupingBy(DailyCount::getName, mapping(DailyCount::getValue, toList())));
 
 		// Group values by the top private domain
 		Map<Object, List<Long>> collect3 = collect2;
@@ -69,12 +71,10 @@ public class LoggerCHelper { // LoggerControllerHelper
 		return root;
 	}
 
-	private void zeroFill(Entry<Date, List<DailyCount>> entry, Collection<?> allList) {
-		List<Object> usedList = entry.getValue().stream().map(ev -> ev.getAction()).collect(Collectors.toList());
-		allList.stream().filter(a -> !usedList.contains(a))
-				// add DailyCount with zero value for each action list found in
-				// allActionsList but not included in usedActionList
-				.forEach(a -> entry.getValue().add(new DailyCount(entry.getKey(), a, 0l)));
+	private void zeroFillMissingDailyName(Entry<Date, List<DailyCount>> entry, Collection<?> allNamesList) {
+		Set<Object> usedNamesList = entry.getValue().stream().map(ev -> ev.getName()).collect(Collectors.toSet());
+		Sets.difference(new HashSet<>(allNamesList), usedNamesList)
+				.forEach(n -> entry.getValue().add(new DailyCount(entry.getKey(), n, 0l)));
 	}
 
 	private List<Long> accumlateLists(List<Long> accumlator, List<Long> list) {

@@ -9,6 +9,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class DailyCount {
 	private Date day;
-	private Object action;
-	private Long value;
+	private Object name; // categories.name
+	private Long value; // element in categories.data array
 }
