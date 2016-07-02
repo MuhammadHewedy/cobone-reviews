@@ -1,4 +1,4 @@
-<link rel='shortcut icon' href='/favicon.png' type='image/x-icon'/>
+<link rel='shortcut icon' href='/favicon.png' type='image/x-icon' />
 
 <!-- jQuery -->
 <script src="js/jquery.js"></script>
@@ -85,7 +85,7 @@
 						type : 'column'
 					},
 					title : {
-						text : options.title ? options.title : title
+						text : (options && options.title) ? options.title : title
 					},
 					subtitle : {
 						text : ''
@@ -97,7 +97,7 @@
 					yAxis : {
 						min : 0,
 						title : {
-							text : options.yAxisText ? options.yAxisText : 'Number of Hit'
+							text : (options && options.yAxisText) ? options.yAxisText : 'Number of Hit'
 						}
 					},
 					tooltip : {
@@ -130,7 +130,9 @@
 	allStats();
 	getReferrer('PAGE_LOAD');
 	getReferrer('PAGE_SCROLL');
-	getReferrer('WATCH_CLICK', {title: 'Watch Button Click'});
+	getReferrer('WATCH_CLICK', {
+		title : 'Watch Button Click'
+	});
 	getReferrer('STORE_BUTTON_CLICK');
 	getReferrer('TIME_SPENT', {
 		title : 'Average Time Spent',
