@@ -6,11 +6,11 @@ var serverApiUrl = serverUrl + '/api/';
 (function() {
     injectRecaptcha();
 
-    var buttonList = $(".add-to-cart")
+    var buttonList = $(".add-to-cart");
     if (buttonList.length <= 0) {
-        console.log('this page DOEST NOT have add To cart!')
+        console.log('this page DOEST NOT have add To cart!');
     } else {
-        console.log('this page has add To cart!')
+        console.log('this page has add To cart!');
 
         $.get(serverUrl + '/app/comments.html', function(data) {
             var e = $(xpath('//*[@id="page-content-wrapper"]/section[2]/div/div/div[1]'));
@@ -79,9 +79,9 @@ function loadComments(params, page) {
 // -- button submit callback
 function submitHandler(params) {
 
-    var name = $.trim($('#review-name').val())
-    var email = $.trim($('#review-email').val())
-    var content = $.trim($('#review-content').val())
+    var name = $.trim($('#review-name').val());
+    var email = $.trim($('#review-email').val());
+    var content = $.trim($('#review-content').val());
     var gRecaptchaResp = $("#g-recaptcha-response").val();
 
     if (validate(name, email, content, gRecaptchaResp)) {
@@ -109,7 +109,7 @@ function submitHandler(params) {
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 $('#fieldset').prop("disabled", false);
-                alert(jqXHR.responseText)
+                alert(jqXHR.responseText);
             },
             contentType: "application/json"
         });
@@ -126,7 +126,7 @@ function deleteComment(id, params) {
         },
         error: function(jqXHR, textStatus, errorThrown) {
             $('#fieldset').prop("disabled", false);
-            alert(jqXHR.responseText)
+            alert(jqXHR.responseText);
         }
     });
 }
@@ -201,24 +201,24 @@ function getDateDiff(date) {
     var hDiff = msDiff / 3600 / 1000;
     var dDiff = hDiff / 24;
 
-    var ret = {}
+    var ret = {};
 
     if (hDiff < 1) {
-        ret.duration = Math.ceil(minDiff)
-        ret.unit = 'MIN'
+        ret.duration = Math.ceil(minDiff);
+        ret.unit = 'MIN';
     } else if (hDiff < 24) {
-        ret.duration = Math.ceil(hDiff)
-        ret.unit = 'HOUR'
+        ret.duration = Math.ceil(hDiff);
+        ret.unit = 'HOUR';
     } else {
-        ret.duration = Math.ceil(dDiff)
-        ret.unit = 'DAY'
+        ret.duration = Math.ceil(dDiff);
+        ret.unit = 'DAY';
     }
     return ret;
 }
 
 function injectRecaptcha() {
     var s = document.createElement('script');
-    s.src = chrome.extension.getURL("lib/recaptcha_api_" + lang + ".js");
+    s.src = 'https://www.google.com/recaptcha/api.js?hl=' + lang;
     s.onload = function() {
         this.parentNode.removeChild(this);
     };

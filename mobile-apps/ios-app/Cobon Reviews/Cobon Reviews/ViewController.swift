@@ -73,7 +73,19 @@ class ViewController: UIViewController, UIWebViewDelegate {
     }
     
     func injectScript() {
-//         self.webView.stringByEvaluatingJavaScriptFromString("alert('" + webView.loading.description + "')");
+        debugPrint("in injectScript")
+        // self.webView.stringByEvaluatingJavaScriptFromString("alert('" + webView.loading.description + "')");
+        
+        let jsPath = NSBundle.mainBundle().pathForResource("chrome-extension/comments", ofType: "js");
+        
+        let commentsJs: String?
+        do {
+            commentsJs = try String(contentsOfFile: jsPath!, encoding: NSUTF8StringEncoding)
+        } catch _ {
+            commentsJs = nil
+        }
+        
+        self.webView.stringByEvaluatingJavaScriptFromString(commentsJs!);
         
     }
 }
