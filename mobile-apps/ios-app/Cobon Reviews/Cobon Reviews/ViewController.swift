@@ -17,6 +17,9 @@ class ViewController: UIViewController, UIWebViewDelegate {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view, typically from a nib.
+        
+        self.navigationItem.title = "Cobone Reviews"
+        
         self.webView.delegate = self
         self.webView.loadRequest(NSURLRequest.init(URL: NSURL.init(string: "https://cobone.com")!))
     }
