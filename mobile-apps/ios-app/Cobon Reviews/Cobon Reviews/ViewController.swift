@@ -51,6 +51,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
     
     func showComments()  {
         // TODO check the url, if a url for deal, then go to comment section, otherwise, show a message to the user
+        self.webView.stringByEvaluatingJavaScriptFromString("window.location.hash='#comments-section'")
     }
 
 
