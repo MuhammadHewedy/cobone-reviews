@@ -32,6 +32,10 @@ class ViewController: UIViewController, UIWebViewDelegate {
         // Web View setup
         self.webView.delegate = self
         self.webView.loadRequest(NSURLRequest.init(URL: NSURL.init(string: "https://cobone.com")!))
+        
+        // SVProgressHUD setup
+        SVProgressHUD.setDefaultStyle(SVProgressHUDStyle.Custom)
+        SVProgressHUD.setDefaultAnimationType(SVProgressHUDAnimationType.Native)
     }
 
     override func didReceiveMemoryWarning() {
