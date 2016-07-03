@@ -76,17 +76,26 @@ class ViewController: UIViewController, UIWebViewDelegate {
         debugPrint("in injectScript")
         // self.webView.stringByEvaluatingJavaScriptFromString("alert('" + webView.loading.description + "')");
         
-        let jsPath = NSBundle.mainBundle().pathForResource("chrome-extension/comments", ofType: "js");
+        let jqueryJs = getFileContent("chrome-extension/lib/jquery.min", ofType: "js");
+        let messagesJs = getFileContent("chrome-extension/messages", ofType: "js");
+        let translateJs = getFileContent("chrome-extension/translate", ofType: "js");
+        let commentsJs = getFileContent("chrome-extension/comments", ofType: "js");
+
+        self.webView.stringByEvaluatingJavaScriptFromString(jqueryJs + messagesJs + translateJs + commentsJs);
         
-        let commentsJs: String?
+    }
+    
+    func getFileContent(fileName: String, ofType: String) -> String {
+        let path = NSBundle.mainBundle().pathForResource(fileName, ofType: ofType);
+        
+        var content: String?
         do {
-            commentsJs = try String(contentsOfFile: jsPath!, encoding: NSUTF8StringEncoding)
+            content = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding)
         } catch _ {
-            commentsJs = nil
+            content = nil
         }
         
-        self.webView.stringByEvaluatingJavaScriptFromString(commentsJs!);
-        
+        return content!;
     }
 }
 
