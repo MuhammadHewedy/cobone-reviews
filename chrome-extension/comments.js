@@ -2,8 +2,6 @@
 var serverApiUrl = serverUrl + '/api/';
 
 (function() {
-    injectRecaptcha();
-
     var buttonList = $(".add-to-cart");
     if (buttonList.length <= 0) {
         console.log('this page DOEST NOT have add To cart!');
@@ -13,7 +11,7 @@ var serverApiUrl = serverUrl + '/api/';
         $.get(serverUrl + '/app/comments.html', function(data) {
             var e = $(xpath('//*[@id="page-content-wrapper"]/section[2]/div/div/div[1]'));
             $($.parseHTML(data)).appendTo(e);
-
+            injectRecaptcha();
             translate();
         });
         loadComments({
