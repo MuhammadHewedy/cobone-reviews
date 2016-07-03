@@ -66,6 +66,15 @@ class ViewController: UIViewController, UIWebViewDelegate {
         }else{
             self.backBarButton.enabled = false;
         }
+        
+        if (!webView.loading){
+            injectScript();
+        }
+    }
+    
+    func injectScript() {
+//         self.webView.stringByEvaluatingJavaScriptFromString("alert('" + webView.loading.description + "')");
+        
     }
 }
 
