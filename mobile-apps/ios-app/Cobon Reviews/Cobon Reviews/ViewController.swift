@@ -12,14 +12,24 @@ import SVProgressHUD
 class ViewController: UIViewController, UIWebViewDelegate {
 
     @IBOutlet weak var webView: UIWebView!
+    var backBarButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view, typically from a nib.
-        
+
+        // Navigation Bar setup
         self.navigationItem.title = "Cobone Reviews"
         
+        self.backBarButton = UIBarButtonItem.init(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.back))
+        let reloadBarButton = UIBarButtonItem.init(title: "Comment", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.addComment))
+        
+        backBarButton.enabled = false;
+        
+        self.navigationItem.leftBarButtonItem = backBarButton
+        self.navigationItem.rightBarButtonItem = reloadBarButton
+        
+        // Web View setup
         self.webView.delegate = self
         self.webView.loadRequest(NSURLRequest.init(URL: NSURL.init(string: "https://cobone.com")!))
     }
@@ -28,8 +38,18 @@ class ViewController: UIViewController, UIWebViewDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
     
+    // ----
+    
+    func back()  {
+        self.webView.goBack();
+    }
+    
+    func addComment()  {
+        // TODO check the url, if a url for deal, then go to comment section, otherwise, show a message to the user
+    }
+
+
     // -- UIWebViewDelegate
     
     func webViewDidStartLoad(webView: UIWebView) {
@@ -40,6 +60,12 @@ class ViewController: UIViewController, UIWebViewDelegate {
     func webViewDidFinishLoad(webView: UIWebView) {
         SVProgressHUD.dismiss()
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        
+        if (self.webView.canGoBack){
+            self.backBarButton.enabled = true;
+        }else{
+            self.backBarButton.enabled = false;
+        }
     }
 }
 
