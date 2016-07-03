@@ -74,15 +74,12 @@ class ViewController: UIViewController, UIWebViewDelegate {
     
     func injectScript() {
         debugPrint("in injectScript")
-        // self.webView.stringByEvaluatingJavaScriptFromString("alert('" + webView.loading.description + "')");
         
-        let jqueryJs = getFileContent("chrome-extension/lib/jquery.min", ofType: "js");
-        let messagesJs = getFileContent("chrome-extension/messages", ofType: "js");
-        let translateJs = getFileContent("chrome-extension/translate", ofType: "js");
-        let commentsJs = getFileContent("chrome-extension/comments", ofType: "js");
+        let scripts = ["lib/jquery.min", "messages", "translate", "conf", "comments"].map {
+            getFileContent("chrome-extension/" + $0, ofType: "js");
+            }.joinWithSeparator(" ");
 
-        self.webView.stringByEvaluatingJavaScriptFromString(jqueryJs + messagesJs + translateJs + commentsJs);
-        
+        self.webView.stringByEvaluatingJavaScriptFromString(scripts);
     }
     
     func getFileContent(fileName: String, ofType: String) -> String {
