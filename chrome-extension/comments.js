@@ -1,5 +1,7 @@
-var serverUrl = 'https://cobonereviews.tk/api/';
-// var serverUrl = 'http://localhost:8080/api/';
+var serverUrl = 'http://localhost:8080/';
+// var serverUrl = 'https://cobonereviews.tk/';
+
+var serverApiUrl = serverUrl + '/api/';
 
 (function() {
     injectRecaptcha();
@@ -10,7 +12,7 @@ var serverUrl = 'https://cobonereviews.tk/api/';
     } else {
         console.log('this page has add To cart!')
 
-        $.get(chrome.extension.getURL('/comments.html'), function(data) {
+        $.get(serverUrl + '/app/comments.html', function(data) {
             var e = $(xpath('//*[@id="page-content-wrapper"]/section[2]/div/div/div[1]'));
             $($.parseHTML(data)).appendTo(e);
 
@@ -26,7 +28,7 @@ var serverUrl = 'https://cobonereviews.tk/api/';
 
 // -- load comments function
 function loadComments(params, page) {
-    $.get(serverUrl + "/comments/" + params.path + "?page=" + page, function(data) {
+    $.get(serverApiUrl + "/comments/" + params.path + "?page=" + page, function(data) {
 
         console.log(data);
         $('#fieldset').prop("disabled", false);
@@ -87,7 +89,7 @@ function submitHandler(params) {
         $('#fieldset').prop("disabled", true);
         $.ajax({
             type: 'POST',
-            url: serverUrl + "/comments",
+            url: serverApiUrl + "/comments",
             data: JSON.stringify({
                 deal: {
                     path: params.path
@@ -117,7 +119,7 @@ function submitHandler(params) {
 function deleteComment(id, params) {
     $.ajax({
         type: 'DELETE',
-        url: serverUrl + "/comments/" + id,
+        url: serverApiUrl + "/comments/" + id,
         success: function() {
             showSuccess('delete_success_message');
             loadComments(params, 0);
