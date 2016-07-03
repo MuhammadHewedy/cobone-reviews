@@ -22,7 +22,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
         self.navigationItem.title = "Cobone Reviews"
         
         self.backBarButton = UIBarButtonItem.init(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.back))
-        let reloadBarButton = UIBarButtonItem.init(title: "Comment", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.addComment))
+        let reloadBarButton = UIBarButtonItem.init(title: "Comment", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.showComments))
         
         backBarButton.enabled = false;
         
@@ -45,7 +45,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
         self.webView.goBack();
     }
     
-    func addComment()  {
+    func showComments()  {
         // TODO check the url, if a url for deal, then go to comment section, otherwise, show a message to the user
     }
 
@@ -72,8 +72,10 @@ class ViewController: UIViewController, UIWebViewDelegate {
         }
     }
     
-    func injectScript() {
-        debugPrint("in injectScript")
+    // -- private methods
+    
+    private func injectScript() {
+        debugPrint("try injecting scripts")
         
         let scripts = ["lib/jquery.min", "messages", "translate", "conf", "comments"].map {
             getFileContent("chrome-extension/" + $0, ofType: "js");
@@ -82,7 +84,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
         self.webView.stringByEvaluatingJavaScriptFromString(scripts);
     }
     
-    func getFileContent(fileName: String, ofType: String) -> String {
+    private func getFileContent(fileName: String, ofType: String) -> String {
         let path = NSBundle.mainBundle().pathForResource(fileName, ofType: ofType);
         
         var content: String?
