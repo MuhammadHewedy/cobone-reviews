@@ -12,9 +12,11 @@
 		B78487021D28B62F0084B61A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B78487001D28B62F0084B61A /* Main.storyboard */; };
 		B78487041D28B62F0084B61A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B78487031D28B62F0084B61A /* Assets.xcassets */; };
 		B78487071D28B62F0084B61A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B78487051D28B62F0084B61A /* LaunchScreen.storyboard */; };
+		F774D9DA86F1E76E262E7647 /* Pods_Cobon_Reviews.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C954AAEE7C7A6AFE64C8259B /* Pods_Cobon_Reviews.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		80DA1063004312FC61659555 /* Pods-Cobon Reviews.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cobon Reviews.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Cobon Reviews/Pods-Cobon Reviews.debug.xcconfig"; sourceTree = "<group>"; };
 		B78486F91D28B62F0084B61A /* Cobon Reviews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cobon Reviews.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B78486FC1D28B62F0084B61A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B78486FE1D28B62F0084B61A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +24,8 @@
 		B78487031D28B62F0084B61A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B78487061D28B62F0084B61A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B78487081D28B62F0084B61A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BC75A331BA138DD79FAA48B9 /* Pods-Cobon Reviews.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cobon Reviews.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cobon Reviews/Pods-Cobon Reviews.release.xcconfig"; sourceTree = "<group>"; };
+		C954AAEE7C7A6AFE64C8259B /* Pods_Cobon_Reviews.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Cobon_Reviews.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +33,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F774D9DA86F1E76E262E7647 /* Pods_Cobon_Reviews.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		46CB841B44AD332E98FF232F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C954AAEE7C7A6AFE64C8259B /* Pods_Cobon_Reviews.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		75FE75D04449A1E1207B1729 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				80DA1063004312FC61659555 /* Pods-Cobon Reviews.debug.xcconfig */,
+				BC75A331BA138DD79FAA48B9 /* Pods-Cobon Reviews.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		B78486F01D28B62F0084B61A = {
 			isa = PBXGroup;
 			children = (
 				B78486FB1D28B62F0084B61A /* Cobon Reviews */,
 				B78486FA1D28B62F0084B61A /* Products */,
+				75FE75D04449A1E1207B1729 /* Pods */,
+				46CB841B44AD332E98FF232F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,9 +95,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B784870B1D28B62F0084B61A /* Build configuration list for PBXNativeTarget "Cobon Reviews" */;
 			buildPhases = (
+				401733670BA39B68AEA12DE1 /* [CP] Check Pods Manifest.lock */,
 				B78486F51D28B62F0084B61A /* Sources */,
 				B78486F61D28B62F0084B61A /* Frameworks */,
 				B78486F71D28B62F0084B61A /* Resources */,
+				11E885D3607B55DA86755CAA /* [CP] Embed Pods Frameworks */,
+				F6293D973313F2B255B08925 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -130,6 +157,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		11E885D3607B55DA86755CAA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Cobon Reviews/Pods-Cobon Reviews-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		401733670BA39B68AEA12DE1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F6293D973313F2B255B08925 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Cobon Reviews/Pods-Cobon Reviews-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B78486F51D28B62F0084B61A /* Sources */ = {
@@ -250,6 +325,7 @@
 		};
 		B784870C1D28B62F0084B61A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 80DA1063004312FC61659555 /* Pods-Cobon Reviews.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -264,6 +340,7 @@
 		};
 		B784870D1D28B62F0084B61A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC75A331BA138DD79FAA48B9 /* Pods-Cobon Reviews.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -295,6 +372,7 @@
 				B784870D1D28B62F0084B61A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

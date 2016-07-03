@@ -1,0 +1,6 @@
+framework module Pods_Cobon_Reviews {
+  umbrella header "Pods-Cobon Reviews-umbrella.h"
+
+  export *
+  module * { export * }
+}
