@@ -13,7 +13,6 @@
         "run_at": "document_end"
     }],
     "manifest_version": 2,
-    "web_accessible_resources": ["comments.html", "lib/recaptcha_api_ar.js", "lib/recaptcha_api_en.js"],
     "icons": {
         "16": "icon/icon16.png",
         "48": "icon/icon48.png",
