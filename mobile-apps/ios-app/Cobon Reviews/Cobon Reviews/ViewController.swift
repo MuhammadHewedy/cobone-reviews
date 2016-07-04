@@ -52,10 +52,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
     func showComments()  {
         // TODO check the url, if a url for deal, then go to comment section, otherwise, show a message to the user
         
-        let scrollScript = loadScript("chrome-extension/lib/jquery.min")
-            + "$('html, body').animate({scrollTop: $('#comments-section').offset().top + 10 }, 2000)"
-        
-        self.webView.stringByEvaluatingJavaScriptFromString(scrollScript)
+        self.webView.stringByEvaluatingJavaScriptFromString("window.location.hash='#comments-section'")
     }
 
 
@@ -67,6 +64,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
+        
         SVProgressHUD.dismiss()
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         
@@ -79,6 +77,11 @@ class ViewController: UIViewController, UIWebViewDelegate {
         if (!webView.loading){
             injectScript();
         }
+    }
+    
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+        SVProgressHUD.dismiss()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
     
     // -- private methods
