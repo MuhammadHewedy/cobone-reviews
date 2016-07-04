@@ -4,8 +4,8 @@ var messages = {
         en: 'Name'
     },
     email: {
-        ar: 'البريد الإلكتروني',
-        en: 'Email'
+        ar: 'البريد الإلكتروني (إختياري)',
+        en: 'Email (Optional)'
     },
     content: {
         ar: 'التعليق',

@@ -2,11 +2,10 @@
 var serverApiUrl = serverUrl + '/api/';
 
 (function() {
-    var buttonList = $(".add-to-cart");
-    if (buttonList.length <= 0) {
-        console.log('this page DOEST NOT have add To cart!');
+    if ($(".singledealbuy").length + $(".dealpanelover").length <= 0) {
+        console.log('this page DOEST NOT have dealpanel section');
     } else {
-        console.log('this page has add To cart!');
+        console.log('this page has dealpanel section');
 
         $.get(serverUrl + '/app/comments.html', function(data) {
             var e = $(xpath('//*[@id="page-content-wrapper"]/section[2]/div/div/div[1]'));
@@ -83,7 +82,6 @@ function submitHandler(params) {
     if (validate(name, email, content, gRecaptchaResp)) {
 
         $('#fieldset').prop("disabled", true);
-        console.log('document.cookie: ', document.cookie )
         $.ajax({
             type: 'POST',
             url: serverApiUrl + "/comments",
