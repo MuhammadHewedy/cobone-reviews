@@ -14,7 +14,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
     var webView: WKWebView!
     var backBarButton: UIBarButtonItem!
-    var commentsButton: UIBarButtonItem!
+    var reloadBarButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,13 +24,11 @@ class ViewController: UIViewController, WKNavigationDelegate {
         self.navigationItem.title = "Cobone Reviews"
         
         self.backBarButton = UIBarButtonItem.init(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.back))
-        self.commentsButton = UIBarButtonItem.init(title: "Comment", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.showComments))
-        self.commentsButton.enabled = false
-        
-        backBarButton.enabled = false;
-        
+        self.reloadBarButton = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: #selector(self.reload))
+
+        backBarButton.enabled = false
         self.navigationItem.leftBarButtonItem = backBarButton
-        self.navigationItem.rightBarButtonItem = commentsButton
+        self.navigationItem.rightBarButtonItem = reloadBarButton
         
         // Web View setup
         let wkConfig = WKWebViewConfiguration()
@@ -56,14 +54,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
         self.webView.goBack();
     }
     
-    func showComments()  {
-        // TODO check the url, if a url for deal, then go to comment section, otherwise, show a message to the user
-
-//        self.webView.evaluateJavaScript("window.location.hash='#comments-section'", completionHandler: nil)
-        
-        self.webView.evaluateJavaScript(loadScript("lib/jquery.min") + ";$('html, body').animate({ scrollTop: $('#comments-section').offset().top}, 2000);"
-            , completionHandler: nil)
-
+    func reload()  {
+        self.webView.reload()
     }
 
 
@@ -74,7 +66,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
         
         SVProgressHUD.show()
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        self.commentsButton.enabled = false
     }
     
     func webView(webView: WKWebView, didCommitNavigation navigation: WKNavigation!) {
@@ -120,9 +111,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
             loadScript($0);
             }.joinWithSeparator(" ");
         
-        self.webView.evaluateJavaScript(scripts) { (result, error) in
-            self.commentsButton.enabled = true
-        }
+        self.webView.evaluateJavaScript(scripts, completionHandler: nil)
     }
     
     private func loadScript(fileName: String) -> String {
