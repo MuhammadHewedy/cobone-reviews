@@ -83,6 +83,7 @@ function submitHandler(params) {
     if (validate(name, email, content, gRecaptchaResp)) {
 
         $('#fieldset').prop("disabled", true);
+        console.log('document.cookie: ', document.cookie )
         $.ajax({
             type: 'POST',
             url: serverApiUrl + "/comments",

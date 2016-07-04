@@ -90,7 +90,8 @@ public class CommentController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> addComments(@Valid @RequestBody(required = true) Comment comment,
-			@CookieValue(COOKIE_NAME) String uuidCookie, HttpServletRequest req, HttpServletResponse resp) {
+			@CookieValue(name = COOKIE_NAME, required = false) String uuidCookie, HttpServletRequest req,
+			HttpServletResponse resp) {
 
 		comment.setUuid(uuidCookie);
 		log.debug("saving comments: {}", comment);

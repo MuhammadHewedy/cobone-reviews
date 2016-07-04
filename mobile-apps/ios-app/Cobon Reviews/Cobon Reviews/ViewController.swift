@@ -51,7 +51,11 @@ class ViewController: UIViewController, UIWebViewDelegate {
     
     func showComments()  {
         // TODO check the url, if a url for deal, then go to comment section, otherwise, show a message to the user
-        self.webView.stringByEvaluatingJavaScriptFromString("window.location.hash='#comments-section'")
+        
+        let scrollScript = loadScript("chrome-extension/lib/jquery.min")
+            + "$('html, body').animate({scrollTop: $('#comments-section').offset().top + 10 }, 2000)"
+        
+        self.webView.stringByEvaluatingJavaScriptFromString(scrollScript)
     }
 
 
@@ -83,14 +87,14 @@ class ViewController: UIViewController, UIWebViewDelegate {
         debugPrint("try injecting scripts")
         
         let scripts = ["lib/jquery.min", "messages", "translate", "conf", "comments"].map {
-            getFileContent("chrome-extension/" + $0, ofType: "js");
+            loadScript("chrome-extension/" + $0);
             }.joinWithSeparator(" ");
 
         self.webView.stringByEvaluatingJavaScriptFromString(scripts);
     }
     
-    private func getFileContent(fileName: String, ofType: String) -> String {
-        let path = NSBundle.mainBundle().pathForResource(fileName, ofType: ofType);
+    private func loadScript(fileName: String) -> String {
+        let path = NSBundle.mainBundle().pathForResource(fileName, ofType: "js");
         
         var content: String?
         do {
