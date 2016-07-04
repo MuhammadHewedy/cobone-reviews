@@ -21,9 +21,9 @@ class ViewController: UIViewController, WKNavigationDelegate {
         
 
         // Navigation Bar setup
-        self.navigationItem.title = "Cobone Reviews"
+        self.navigationItem.title = NSLocalizedString("app.title", comment: "app.title")
         
-        self.backBarButton = UIBarButtonItem.init(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.back))
+        self.backBarButton = UIBarButtonItem.init(title: NSLocalizedString("back", comment: "back"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.back))
         self.reloadBarButton = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: #selector(self.reload))
 
         backBarButton.enabled = false

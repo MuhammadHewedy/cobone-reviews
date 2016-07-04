@@ -12,6 +12,8 @@
 		B78487021D28B62F0084B61A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B78487001D28B62F0084B61A /* Main.storyboard */; };
 		B78487041D28B62F0084B61A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B78487031D28B62F0084B61A /* Assets.xcassets */; };
 		B78487071D28B62F0084B61A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B78487051D28B62F0084B61A /* LaunchScreen.storyboard */; };
+		B78DE40B1D2AA87C006A67E8 /* ar.lproj in Resources */ = {isa = PBXBuildFile; fileRef = B78DE4091D2AA87C006A67E8 /* ar.lproj */; };
+		B78DE40C1D2AA87C006A67E8 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = B78DE40A1D2AA87C006A67E8 /* Base.lproj */; };
 		B7A3369F1D2970D400626C03 /* chrome-extension in Resources */ = {isa = PBXBuildFile; fileRef = B7A3369E1D2970D400626C03 /* chrome-extension */; };
 		F774D9DA86F1E76E262E7647 /* Pods_Cobon_Reviews.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C954AAEE7C7A6AFE64C8259B /* Pods_Cobon_Reviews.framework */; };
 /* End PBXBuildFile section */
@@ -25,6 +27,8 @@
 		B78487031D28B62F0084B61A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B78487061D28B62F0084B61A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B78487081D28B62F0084B61A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B78DE4091D2AA87C006A67E8 /* ar.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ar.lproj; sourceTree = "<group>"; };
+		B78DE40A1D2AA87C006A67E8 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		B7A3369E1D2970D400626C03 /* chrome-extension */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "chrome-extension"; path = "../../../../chrome-extension"; sourceTree = "<group>"; };
 		BC75A331BA138DD79FAA48B9 /* Pods-Cobon Reviews.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cobon Reviews.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cobon Reviews/Pods-Cobon Reviews.release.xcconfig"; sourceTree = "<group>"; };
 		C954AAEE7C7A6AFE64C8259B /* Pods_Cobon_Reviews.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Cobon_Reviews.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +91,8 @@
 				B78487031D28B62F0084B61A /* Assets.xcassets */,
 				B78487051D28B62F0084B61A /* LaunchScreen.storyboard */,
 				B78487081D28B62F0084B61A /* Info.plist */,
+				B78DE4091D2AA87C006A67E8 /* ar.lproj */,
+				B78DE40A1D2AA87C006A67E8 /* Base.lproj */,
 			);
 			path = "Cobon Reviews";
 			sourceTree = "<group>";
@@ -156,6 +162,8 @@
 				B7A3369F1D2970D400626C03 /* chrome-extension in Resources */,
 				B78487071D28B62F0084B61A /* LaunchScreen.storyboard in Resources */,
 				B78487041D28B62F0084B61A /* Assets.xcassets in Resources */,
+				B78DE40B1D2AA87C006A67E8 /* ar.lproj in Resources */,
+				B78DE40C1D2AA87C006A67E8 /* Base.lproj in Resources */,
 				B78487021D28B62F0084B61A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
