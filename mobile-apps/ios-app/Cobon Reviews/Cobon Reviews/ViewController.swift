@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import WebKit
 import SVProgressHUD
 
-class ViewController: UIViewController, UIWebViewDelegate {
+class ViewController: UIViewController, WKNavigationDelegate {
 
-    @IBOutlet weak var webView: UIWebView!
+    var webView: WKWebView!
     var backBarButton: UIBarButtonItem!
+    var commentsButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,16 +24,21 @@ class ViewController: UIViewController, UIWebViewDelegate {
         self.navigationItem.title = "Cobone Reviews"
         
         self.backBarButton = UIBarButtonItem.init(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.back))
-        let reloadBarButton = UIBarButtonItem.init(title: "Comment", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.showComments))
+        self.commentsButton = UIBarButtonItem.init(title: "Comment", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.showComments))
+        self.commentsButton.enabled = false
         
         backBarButton.enabled = false;
         
         self.navigationItem.leftBarButtonItem = backBarButton
-        self.navigationItem.rightBarButtonItem = reloadBarButton
+        self.navigationItem.rightBarButtonItem = commentsButton
         
         // Web View setup
-        self.webView.delegate = self
+        let wkConfig = WKWebViewConfiguration()
+        self.webView = WKWebView.init(frame: self.view.frame, configuration: wkConfig)
+        self.webView.allowsBackForwardNavigationGestures = true
+        self.webView.navigationDelegate = self
         self.webView.loadRequest(NSURLRequest.init(URL: NSURL.init(string: "https://cobone.com")!))
+        self.view.addSubview(self.webView)
         
         // SVProgressHUD setup
         SVProgressHUD.setDefaultStyle(SVProgressHUDStyle.Custom)
@@ -51,19 +58,31 @@ class ViewController: UIViewController, UIWebViewDelegate {
     
     func showComments()  {
         // TODO check the url, if a url for deal, then go to comment section, otherwise, show a message to the user
+
+//        self.webView.evaluateJavaScript("window.location.hash='#comments-section'", completionHandler: nil)
         
-        self.webView.stringByEvaluatingJavaScriptFromString("window.location.hash='#comments-section'")
+        self.webView.evaluateJavaScript(loadScript("lib/jquery.min") + ";$('html, body').animate({ scrollTop: $('#comments-section').offset().top}, 2000);"
+            , completionHandler: nil)
+
     }
 
 
-    // -- UIWebViewDelegate
+    // -- WKNavigationDelegate --------------------------
     
-    func webViewDidStartLoad(webView: UIWebView) {
+    func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        debugPrint("didStartProvisionalNavigation")
+        
         SVProgressHUD.show()
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        self.commentsButton.enabled = false
     }
     
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func webView(webView: WKWebView, didCommitNavigation navigation: WKNavigation!) {
+        debugPrint("didCommitNavigation")
+    }
+    
+    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+        debugPrint("didFinishNavigation")
         
         SVProgressHUD.dismiss()
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -74,15 +93,23 @@ class ViewController: UIViewController, UIWebViewDelegate {
             self.backBarButton.enabled = false;
         }
         
-        if (!webView.loading){
-            injectScript();
-        }
+        injectScript();
     }
     
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+    func webView(webView: WKWebView, didFailNavigation navigation: WKNavigation!, withError error: NSError) {
+        debugPrint("didFailNavigation")
+        
         SVProgressHUD.dismiss()
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
+    
+    func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
+        debugPrint("didFailProvisionalNavigation")
+        
+        SVProgressHUD.dismiss()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    }
+    
     
     // -- private methods
     
@@ -90,14 +117,16 @@ class ViewController: UIViewController, UIWebViewDelegate {
         debugPrint("try injecting scripts")
         
         let scripts = ["lib/jquery.min", "messages", "translate", "conf", "comments"].map {
-            loadScript("chrome-extension/" + $0);
+            loadScript($0);
             }.joinWithSeparator(" ");
-
-        self.webView.stringByEvaluatingJavaScriptFromString(scripts);
+        
+        self.webView.evaluateJavaScript(scripts) { (result, error) in
+            self.commentsButton.enabled = true
+        }
     }
     
     private func loadScript(fileName: String) -> String {
-        let path = NSBundle.mainBundle().pathForResource(fileName, ofType: "js");
+        let path = NSBundle.mainBundle().pathForResource("chrome-extension/" + fileName, ofType: "js");
         
         var content: String?
         do {
